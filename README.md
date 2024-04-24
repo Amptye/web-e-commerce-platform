@@ -1,9 +1,18 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/0mhnc0uZ)
 # RESTful WebPOS
-请参考[spring-petclinic/spring-petclinic-rest](https://github.com/spring-petclinic/spring-petclinic-rest) 将aw03的webpos项目改为REST架构风格的应用系统。具体要求包括：
+## 详细介绍
 
-- 请使用OpenAPI的定义REST接口，参考[api.yml](src/main/resources/api.yml)；
-- 请`client`目录下给大家提供的客户端与你所写的RESTfulWebPOS接起来
-  - 当前`client`目录下的客户端可以与一个[假的后端服务](https://github.com/typicode/json-server)对接，具体请看[client/README.md](client/README.md)
-- 请编写README.md，详细介绍你所写的RESTfulWebPOS;
-- 请着重理解**应用状态**与**资源状态**两个概念，特别是如何实现客户端与服务器的无状态交互，并代码实现中予以体现，并README.md中写下你的理解。
+
+## 理解
+1. **应用状态（Application State）**：
+  - 应用状态是指客户端应用程序的当前状态或情境，通常由用户操作或系统事件触发。
+  - 应用状态可以由多种因素组成，包括用户输入、用户导航、数据加载状态等。
+  - 在 Web 应用中，应用状态通常反映在用户界面上。
+
+2. **资源状态（Resource State）**：
+  - 资源状态是指服务器端资源的当前状态或属性。
+  - 在 RESTful 架构中，资源状态通常由 URI 表示，客户端可以通过 HTTP 方法对资源进行操作，并获取或修改资源的状态。
+
+无状态的客户端-服务器交互的核心思想是客户端和服务器之间不保存会话状态，所有的状态都由客户端传递给服务器或从服务器获取。具体来说，客户端每次发送请求时都会携带足够的信息来描述当前的应用状态，服务器则根据请求中的信息进行响应，并返回相应的资源状态。
+
+无状态交互可以实现客户端和服务器之间的无状态交互，从而使得系统更加可伸缩、可靠和易于维护。
