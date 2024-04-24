@@ -20,7 +20,7 @@ let method = '';
 let totalVat = 0;
 let moment = require('moment');
 let Swal = require('sweetalert2');
-let json_api = 'http://localhost:3000/';
+let json_api = 'http://localhost:8080/';
 let json_img = './public/images/';//添加当前文件夹路径
 
 $.get(json_api + 'settings', function (data) {

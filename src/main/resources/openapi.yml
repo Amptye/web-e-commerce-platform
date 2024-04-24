@@ -225,6 +225,70 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /users/{userId}/tax_update:
+    put:
+      tags:
+        - user
+      operationId: taxUpdateUser
+      summary: Update a user's details
+      description: Updates the user record with the specified details.
+      parameters:
+        - name: userId
+          in: path
+          description: The ID of the user.
+          required: true
+          schema:
+            type: long
+      requestBody:
+        description: The user details to use for the update.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaxFields'
+        required: true
+      responses:
+        200:
+          description: User details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /users/{userId}/charge:
     put:
       summary: charge for the user's cart
@@ -1625,6 +1689,7 @@ components:
           title: Password
           description: The password of the user.
           type: string
+          format: password
           minLength: 1
           maxLength: 80
           example: '123456789'
@@ -1633,15 +1698,48 @@ components:
           description: The money of the user.
           type: double
           minimum: 0
+        address1:
+          type: string
+          minLength: 1
+          maxLength: 20
+          pattern: '^[0-9]*$'
+          example: '10086'
+        address2:
+          type: string
+          minLength: 1
+          maxLength: 20
+          pattern: '^[0-9]*$'
+          example: '10087'
+        contact:
+          type: string
+          pattern: '^\d{0,20}$'
+        symbol:
+          type: string
+        footer:
+          type: string
+        image:
+          type: string
       required:
         - name
         - email
         - pass
-        - money
+    TaxFields:
+      type: object
+      properties:
+        tax:
+          type: boolean
+        percentage:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+      required:
+        - tax
     User:
       title: User
       allOf:
         - $ref: '#/components/schemas/UserFields'
+        - $ref: '#/components/schemas/TaxFields'
         - type: object
           properties:
             id:
@@ -1663,6 +1761,10 @@ components:
           type: string
         categoryId:
           type: long
+        quantity:
+          type: integer
+          format: int32
+          minimum: 0
       required:
         - name
     Product:
@@ -1672,6 +1774,8 @@ components:
           properties:
             id:
               type: long
+            stock:
+              type: boolean
           required:
             - id
     ItemFields:
