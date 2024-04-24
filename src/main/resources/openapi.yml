@@ -479,6 +479,82 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    patch:
+      tags:
+        - product
+      operationId: patchProduct
+      summary: Change product's quantity
+      parameters:
+        - name: productId
+          in: path
+          description: The ID of the product.
+          required: true
+          schema:
+            type: long
+      requestBody:
+        description: The product details to use for the update.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: double
+                  minimum: 0
+                image:
+                  type: string
+                categoryId:
+                  type: long
+                quantity:
+                  type: integer
+                  format: int32
+                  minimum: 0
+        required: true
+      responses:
+        200:
+          description: Product details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       tags:
         - product
@@ -1721,8 +1797,6 @@ components:
           type: string
       required:
         - name
-        - email
-        - pass
     TaxFields:
       type: object
       properties:

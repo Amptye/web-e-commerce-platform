@@ -4,6 +4,7 @@ window.$ = $;
 window.jQuery = $;
 
 let index = 0;
+let product;
 let cart = [];
 let user = {};
 let receipt = '';
@@ -13,26 +14,34 @@ let allProducts = [];
 let allCategories = [];
 let subTotal = 0;
 let orderTotal = 0;
-let settings;
+let user_setting;
 let holdOrder = 0;
 let paymentType = 0;
 let method = '';
 let totalVat = 0;
+let app = 'Standalone Point of Sale';
+let store = 'Store-Pos';
 let moment = require('moment');
 let Swal = require('sweetalert2');
 let json_api = 'http://localhost:8080/';
 let json_img = './public/images/';//添加当前文件夹路径
 
-$.get(json_api + 'settings', function (data) {
-    settings = data[0].settings;
-    console.log(settings);
+function getProductByItem(item){
+    return allProducts.filter(function (selected) {
+              return selected.id == parseInt(item.productId);
+           })[0];
+}
+
+$.get(json_api + 'users', function (data) {
+    user_setting = data[0];
+    console.log(user_setting);
 });
 $(document).ready(function () {
     $.fn.addToCart = function (id, count, stock) {
 
         if (stock == 1) {
             if (count > 0) {
-                $.get(json_api + 'product/' + id, function (data) {
+                $.get(json_api + 'products/' + id, function (data) {
                     $(this).addProductToCart(data);
                 });
             }
@@ -45,7 +54,7 @@ $(document).ready(function () {
             }
         }
         else {
-            $.get(json_api + 'product/' + id, function (data) {
+            $.get(json_api + 'products/' + id, function (data) {
                 $(this).addProductToCart(data);
             });
         }
@@ -89,7 +98,7 @@ $(document).ready(function () {
                             )
                         )
                     ),
-                    $('<td>', { text: settings.symbol + (data.price * data.quantity).toFixed(2) }),
+                    $('<td>', { text: user_setting.symbol + (data.price * data.quantity).toFixed(2) }),
                     $('<td>').append(
                         $('<button>', {
                             class: 'btn btn-danger btn-xs',
@@ -103,14 +112,14 @@ $(document).ready(function () {
         })
     };
 
-    if (settings && settings.symbol) {
-        $("#price_curr, #payment_curr, #change_curr").text(settings.symbol);
+    if (user_setting && user_setting.symbol) {
+        $("#price_curr, #payment_curr, #change_curr").text(user_setting.symbol);
     }
 
 
     function loadProducts() {
 
-        $.get(json_api + 'product', function (data) {
+        $.get(json_api + 'products', function (data) {
             console.log(data);
             data.forEach(item => {
                 item.price = parseFloat(item.price).toFixed(2);
@@ -123,30 +132,32 @@ $(document).ready(function () {
             $('#parent').text('');
             $('#categories').html(`<button type="button" id="all" class="btn btn-categories btn-white waves-effect waves-light">All</button> `);
 
-            data.forEach(item => {
+            data.forEach(pro => {
 
-                if (!categories.includes(item.category)) {
-                    categories.push(item.category);
+                if (!categories.includes(pro.category)) {
+                    categories.push(pro.category);
                 }
 
-                let item_info = `<div class="col-lg-2 box ${item.category}"
-                        onclick="$(this).addToCart(${item._id}, ${item.quantity}, ${item.stock})">
-                      <div class="widget-panel widget-style-2 ">                    
-                      <div id="image"><img src="${item.img == "" ? "./public/images/default.jpg" : json_img/*img_path*/ + item.img}" id="product_img" alt=""></div>                    
+                product = pro;
+
+                let product_info = `<div class="col-lg-2 box ${product.category}"
+                        onclick="$(this).addToCart(${product.id}, ${product.quantity}, ${product.stock})">
+                      <div class="widget-panel widget-style-2 ">
+                      <div id="image"><img src="${product.image == "" ? "./public/images/default.jpg" : json_img/*img_path*/ + product.image}" id="product_img" alt=""></div>
                                   <div class="text-muted m-t-5 text-center">
-                                  <div class="name" id="product_name">${item.name}</div> 
-                                  <span class="sku">${item.sku}</span>
-                                  <span class="stock">STOCK </span><span class="count">${item.stock == 1 ? item.quantity : 'N/A'}</span></div>
-                                  <sp class="text-success text-center"><b data-plugin="counterup">${settings.symbol + item.price}</b> </sp>
+                                  <div class="name" id="product_name">${product.name}</div>
+//                                  <span class="sku">${product.sku}</span>
+                                  <span class="stock">STOCK </span><span class="count">${product.stock == 1 ? product.quantity : 'N/A'}</span></div>
+                                  <sp class="text-success text-center"><b data-plugin="counterup">${user_setting.symbol + product.price}</b> </sp>
                       </div>
                   </div>`;
-                $('#parent').append(item_info);
+                $('#parent').append(product_info);
             });
 
             categories.forEach(category => {
 
                 let c = allCategories.filter(function (ctg) {
-                    return ctg._id == category;
+                    return ctg.id == category;
                 })
 
                 $('#categories').append(`<button type="button" id="${category}" class="btn btn-categories btn-white waves-effect waves-light">${c.length > 0 ? c[0].name : ''}</button> `);
@@ -162,7 +173,7 @@ $(document).ready(function () {
             loadCategoryList();
             $('#category').html(`<option value="0">Select</option>`);
             allCategories.forEach(category => {
-                $('#category').append(`<option value="${category._id}">${category.name}</option>`);
+                $('#category').append(`<option value="${category.id}">${category.name}</option>`);
             });
         });
     }
@@ -176,7 +187,7 @@ $(document).ready(function () {
             total += data.quantity * data.price;
         });
         total = total - $("#inputDiscount").val();
-        $('#price').text(settings.symbol + total.toFixed(2));
+        $('#price').text(user_setting.symbol + total.toFixed(2));
 
         subTotal = total;
 
@@ -184,7 +195,7 @@ $(document).ready(function () {
             $("#inputDiscount").val(0);
         }
 
-        if (settings.charge_tax) {
+        if (user_setting.charge_tax) {
             totalVat = ((total * vat) / 100);
             grossTotal = total + totalVat
         }
@@ -195,7 +206,7 @@ $(document).ready(function () {
 
         orderTotal = grossTotal.toFixed(2);
 
-        $("#gross_price").text(settings.symbol + grossTotal.toFixed(2));
+        $("#gross_price").text(user_setting.symbol + grossTotal.toFixed(2));
         $("#payablePrice").val(grossTotal);
     };
 
@@ -213,10 +224,10 @@ $(document).ready(function () {
         item = cart[i];
 
         let product = allProducts.filter(function (selected) {
-            return selected._id == parseInt(item.id);
+            return selected.id == parseInt(item.productId);
         });
 
-        if (product[0].stock == 1) {
+        if (product[0].stock == true) {
             if (item.quantity < product[0].quantity) {
                 item.quantity += 1;
                 $(this).renderTable(cart);
@@ -239,8 +250,8 @@ $(document).ready(function () {
 
 
     $.fn.qtDecrement = function (i) {
+        item = cart[i];
         if (item.quantity > 1) {
-            item = cart[i];
             item.quantity -= 1;
             $(this).renderTable(cart);
         }
@@ -321,8 +332,9 @@ $(document).ready(function () {
         let payment = 0;
 
         cart.forEach(item => {
+            product = getProductByItem(item);
 
-            items += "<tr><td>" + item.product_name + "</td><td>" + item.quantity + "</td><td>" + settings.symbol + parseFloat(item.price).toFixed(2) + "</td></tr>";
+            items += "<tr><td>" + product.name + "</td><td>" + item.quantity + "</td><td>" + user_setting.symbol + parseFloat(item.price).toFixed(2) + "</td></tr>";
 
         });
 
@@ -356,12 +368,12 @@ $(document).ready(function () {
             payment = `<tr>
                   <td>Paid</td>
                   <td>:</td>
-                  <td>${settings.symbol + paid}</td>
+                  <td>${user_setting.symbol + paid}</td>
               </tr>
               <tr>
                   <td>Change</td>
                   <td>:</td>
-                  <td>${settings.symbol + Math.abs(change).toFixed(2)}</td>
+                  <td>${user_setting.symbol + Math.abs(change).toFixed(2)}</td>
               </tr>
               <tr>
                   <td>Method</td>
@@ -372,11 +384,11 @@ $(document).ready(function () {
 
 
 
-        if (settings.charge_tax) {
+        if (user_setting.tax) {
             tax_row = `<tr>
-              <td>Vat(${settings.percentage})% </td>
+              <td>Vat(${user_setting.percentage})% </td>
               <td>:</td>
-              <td>${settings.symbol}${parseFloat(totalVat).toFixed(2)}</td>
+              <td>${user_setting.symbol}${parseFloat(totalVat).toFixed(2)}</td>
           </tr>`;
         }
 
@@ -406,14 +418,14 @@ $(document).ready(function () {
             method = 'POST'
         }
 
-        receipt = `<div style="font-size: 10px;">                            
+        receipt = `<div style="font-size: 10px;">
   <p style="text-align: center;">
-  ${settings.img == "" ? settings.img : '<img style="max-width: 50px;max-width: 100px;" src ="' + img_path + settings.img + '" /><br>'}
-      <span style="font-size: 22px;">${settings.store}</span> <br>
-      ${settings.address_one} <br>
-      ${settings.address_two} <br>
-      ${settings.contact != '' ? 'Tel: ' + settings.contact + '<br>' : ''} 
-      ${settings.tax != '' ? 'Vat No: ' + settings.tax + '<br>' : ''} 
+  ${user_setting.image == "" ? user_setting.image : '<img style="max-width: 50px;max-width: 100px;" src ="' + img_path + user_setting.image + '" /><br>'}
+      <span style="font-size: 22px;">${store}</span> <br>
+      ${user.address1} <br>
+      ${user_setting.address2} <br>
+      ${user_setting.contact != '' ? 'Tel: ' + user_setting.contact + '<br>' : ''}
+      ${user_setting.tax != '' ? 'Vat No: ' + user_setting.tax + '<br>' : ''}
   </p>
   <hr>
   <left>
@@ -421,7 +433,7 @@ $(document).ready(function () {
       Order No : ${orderNumber} <br>
       Ref No : ${refNumber == "" ? orderNumber : refNumber} <br>
     Customer : ${customer == 0 ? 'Walk in customer' : "admin"/*customer.name*/} <br>
-      Cashier : ${user.fullname} <br>
+      Cashier : ${user_setting.name} <br>
       Date : ${date}<br>
       </p>
 
@@ -436,26 +448,26 @@ $(document).ready(function () {
       </tr>
       </thead>
       <tbody>
-      ${items}                
+      ${items}
 
-      <tr>                        
+      <tr>
           <td><b>Subtotal</b></td>
           <td>:</td>
-          <td><b>${settings.symbol}${subTotal.toFixed(2)}</b></td>
+          <td><b>${user_setting.symbol}${subTotal.toFixed(2)}</b></td>
       </tr>
       <tr>
           <td>Discount</td>
           <td>:</td>
-          <td>${discount > 0 ? settings.symbol + parseFloat(discount).toFixed(2) : ''}</td>
+          <td>${discount > 0 ? user_setting.symbol + parseFloat(discount).toFixed(2) : ''}</td>
       </tr>
-      
+
       ${tax_row}
-  
+
       <tr>
           <td><h3>Total</h3></td>
           <td><h3>:</h3></td>
           <td>
-              <h3>${settings.symbol}${parseFloat(orderTotal).toFixed(2)}</h3>
+              <h3>${user_setting.symbol}${parseFloat(orderTotal).toFixed(2)}</h3>
           </td>
       </tr>
       ${payment == 0 ? '' : payment}
@@ -465,7 +477,7 @@ $(document).ready(function () {
       <hr>
       <br>
       <p style="text-align: center;">
-       ${settings.footer}
+       ${user_setting.footer}
        </p>
       </div>`;
 
@@ -503,18 +515,19 @@ $(document).ready(function () {
             total: orderTotal,
             paid: paid,
             change: change,
-            _id: orderNumber,
+            id: orderNumber,
             till: 'till',
             mac: 'mac',
             user: 'admin',
-            user_id: '001'
+            userid: '001'
         }
         for (let i = 0; i < cart.length; i++) {
             console.log(cart[i]);
+            product = getProductByItem(cart[i]);
             $.ajax({
-                url: json_api + 'product/' + cart[i].id,
+                url: json_api + 'products/' + product.id,
                 dataType: "json",
-                data: JSON.stringify({ quantity: cart[i].max_quantity - cart[i].quantity }),
+                data: JSON.stringify({ quantity: product.quantity - cart[i].quantity }),
                 type: "PATCH",
                 success: function (data) {
                     console.log("Data updated!");
@@ -577,18 +590,18 @@ $(document).ready(function () {
             counter++;
 
             let category = allCategories.filter(function (category) {
-                return category._id == product.category;
+                return category.id == product.categoryId;
             });
 
 
             product_list += `<tr>
-      <td><img id="`+ product._id + `"></td>
-      <td><img style="max-height: 50px; max-width: 50px; border: 1px solid #ddd;" src="${product.img == "" ? "./public/images/default.jpg" : json_img/*img_path*/ + product.img}" id="product_img"></td>
+      <td><img id="`+ product.id + `"></td>
+      <td><img style="max-height: 50px; max-width: 50px; border: 1px solid #ddd;" src="${product.image == "" ? "./public/images/default.jpg" : json_img/*img_path*/ + product.image}" id="product_img"></td>
       <td>${product.name}</td>
-      <td>${settings.symbol}${product.price}</td>
-      <td>${product.stock == 1 ? product.quantity : 'N/A'}</td>
+      <td>${user_setting.symbol}${product.price}</td>
+      <td>${product.stock == true ? product.quantity : 'N/A'}</td>
       <td>${category.length > 0 ? category[0].name : ''}</td>
-      <td class="nobr"><span class="btn-group"><button onClick="$(this).editProduct(${index})" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button><button onClick="$(this).deleteProduct(${product._id})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></span></td></tr>`;
+      <td class="nobr"><span class="btn-group"><button onClick="$(this).editProduct(${index})" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button><button onClick="$(this).deleteProduct(${product.id})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></span></td></tr>`;
 
             if (counter == allProducts.length) {
 
@@ -623,7 +636,7 @@ $(document).ready(function () {
             category_list += `<tr>
 
       <td>${category.name}</td>
-      <td><span class="btn-group"><button onClick="$(this).editCategory(${index})" class="btn btn-warning"><i class="fa fa-edit"></i></button><button onClick="$(this).deleteCategory(${category._id})" class="btn btn-danger"><i class="fa fa-trash"></i></button></span></td></tr>`;
+      <td><span class="btn-group"><button onClick="$(this).editCategory(${index})" class="btn btn-warning"><i class="fa fa-edit"></i></button><button onClick="$(this).deleteCategory(${category.id})" class="btn btn-danger"><i class="fa fa-trash"></i></button></span></td></tr>`;
         });
 
         if (counter == allCategories.length) {
@@ -646,7 +659,7 @@ $(document).ready(function () {
 });
 $.fn.addProductToCart = function (data) {
     item = {
-        id: data._id,
+        id: data.id,
         product_name: data.name,
         // sku: data.sku,
         max_quantity: data.quantity,
