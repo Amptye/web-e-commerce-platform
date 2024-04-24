@@ -743,6 +743,116 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /items/{itemId}/addone:
+    post:
+      tags:
+        - item
+      operationId: addItemById
+      parameters:
+        - name: itemId
+          in: path
+          description: The ID of the item.
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: Item details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /items/{itemId}/subone:
+    post:
+      tags:
+        - item
+      operationId: subItemById
+      parameters:
+        - name: itemId
+          in: path
+          description: The ID of the item.
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: Item details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /carts:
     get:
       summary: List all carts
@@ -940,6 +1050,56 @@ paths:
                 $ref: '#/components/schemas/Error'
         404:
           description: Owner  not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /carts/{cartId}/{productId}:
+    post:
+      tags:
+        - item
+      operationId: addProductToCart
+      summary: Adds a product to a cart
+      parameters:
+        - name: cartId
+          in: path
+          description: The ID of the cart.
+          required: true
+          schema:
+            type: long
+        - name: productId
+          in: path
+          description: The ID of the product.
+          required: true
+          schema:
+            type: long
+      responses:
+        201:
+          description: The item was sucessfully added.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Cart not found.
           content:
             application/json:
               schema:
@@ -1218,6 +1378,128 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /carts/{cartId}/items/{itemId}/addone:
+    post:
+      tags:
+        - item
+      operationId: addCartsItemById
+      parameters:
+        - name: cartId
+          in: path
+          description: The ID of the cart.
+          required: true
+          schema:
+            type: long
+        - name: itemId
+          in: path
+          description: The ID of the item.
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: Item details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /carts/{cartId}/items/{itemId}/subone:
+    post:
+      tags:
+        - item
+      operationId: subCartsItemById
+      parameters:
+        - name: cartId
+          in: path
+          description: The ID of the cart.
+          required: true
+          schema:
+            type: long
+        - name: itemId
+          in: path
+          description: The ID of the item.
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: Item details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     UserFields:
@@ -1323,7 +1605,7 @@ components:
         - items
     Cart:
       allOf:
-        - $ref: '#/components/schemas/ItemFields'
+        - $ref: '#/components/schemas/CartFields'
         - type: object
           properties:
             id:
