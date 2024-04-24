@@ -611,7 +611,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /products/{productName}:
+  /products/getByName/{productName}:
     get:
       summary: Info for a specific product
       operationId: showProductByName
