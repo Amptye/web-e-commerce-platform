@@ -1500,6 +1500,107 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /categories:
+    get:
+      summary: List all categories
+      operationId: listCategories
+      tags:
+        - categories
+      responses:
+        '200':
+          description: A paged array of categories
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Categories"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - category
+      operationId: addCategory
+      summary: Create a category
+      description: Creates a category.
+      requestBody:
+        description: The category
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryFields'
+        required: true
+      responses:
+        200:
+          description: category created successfully.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /categories/{categoryId}:
+    get:
+      summary: Info for a specific category
+      operationId: showCategoryById
+      tags:
+        - category
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          description: The id of the item to retrieve
+          schema:
+            type: long
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     UserFields:
@@ -1560,6 +1661,8 @@ components:
           minimum: 0
         image:
           type: string
+        categoryId:
+          type: long
       required:
         - name
     Product:
@@ -1614,6 +1717,22 @@ components:
               type: long
           required:
             - id
+    CategoryFields:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    Category:
+      allOf:
+        - $ref: '#/components/schemas/CategoryFields'
+        - type: object
+          properties:
+            id:
+              type: long
+          required:
+            - id
     Users:
       type: array
       items:
@@ -1630,6 +1749,10 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Cart"
+    Categories:
+      type: array
+      items:
+        $ref: "#/components/schemas/Category"
     Error:
       type: object
       required:
