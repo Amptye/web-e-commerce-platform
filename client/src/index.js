@@ -529,7 +529,8 @@ $(document).ready(function () {
             product = getProductByItem(cart[i]);
             $.ajax({
                 url: json_api + 'products/' + product.id,
-                dataType: "application/json",
+                dataType: 'json',
+                contentType: 'application/json',
                 data: JSON.stringify({ quantity: product.quantity - cart[i].quantity }),
                 type: "PATCH",
                 success: function (data) {
