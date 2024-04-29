@@ -73,10 +73,11 @@ $(document).ready(function () {
         $('#cartTable > tbody').empty();
         $(this).calculateCart();
         $.each(itemList, function (index, data) {
+            product = getProductByItem(data);
             $('#cartTable > tbody').append(
                 $('<tr>').append(
                     $('<td>', { text: index + 1 }),
-                    $('<td>', { text: data.product_name }),
+                    $('<td>', { text: product.name }),
                     $('<td>').append(
                         $('<div>', { class: 'input-group' }).append(
                             $('<div>', { class: 'input-group-btn btn-xs' }).append(
@@ -525,9 +526,10 @@ $(document).ready(function () {
             user: 'admin',
             userid: '001'
         }
+        var promises = [];
         for (let i = 0; i < cart.length; i++) {
             product = getProductByItem(cart[i]);
-            $.ajax({
+            promises.push($.ajax({
                 url: json_api + 'products/' + product.id,
                 dataType: 'json',
                 contentType: 'application/json',
@@ -539,23 +541,28 @@ $(document).ready(function () {
                 error: function (data) {
                     console.log("failed");
                 }
-            })
+            }));
         }
+        $.when.apply($, promises).then(function(){
 
-        cart = [];
-        $('#viewTransaction').html('');
-        $('#viewTransaction').html(receipt);
-        $('#orderModal').modal('show');
-        loadProducts();
-        $(".loading").hide();
-        $("#dueModal").modal('hide');
-        $("#paymentModel").modal('hide');
-        $(this).renderTable(cart);
+            cart = [];
+            $('#viewTransaction').html('');
+            $('#viewTransaction').html(receipt);
+            $('#orderModal').modal('show');
+            loadProducts();
+            $(".loading").hide();
+            $("#dueModal").modal('hide');
+            $("#paymentModel").modal('hide');
+            $(this).renderTable(cart);
 
 
-        $("#refNumber").val('');
-        $("#change").text('');
-        $("#payment").val('');
+            $("#refNumber").val('');
+            $("#change").text('');
+            $("#payment").val('');
+        }, function() {
+            // 处理失败情况
+            console.log("Some requests failed!");
+        });
 
     }
 
