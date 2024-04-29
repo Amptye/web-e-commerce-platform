@@ -70,7 +70,9 @@ public class UserController implements UsersApi {
         if (currentUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        currentUser.setName(userFieldsDto.getName());
+        if(userFieldsDto.getName() != null) {
+            currentUser.setName(userFieldsDto.getName());
+        }
         if(userFieldsDto.getPass() != null) {
             currentUser.setPass(userFieldsDto.getPass());
         }
