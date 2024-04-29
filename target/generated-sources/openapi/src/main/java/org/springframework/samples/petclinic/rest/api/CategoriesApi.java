@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-25T06:32:19.341577700+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
 @Validated
 @Tag(name = "categories", description = "the categories API")
 public interface CategoriesApi {
@@ -48,7 +48,7 @@ public interface CategoriesApi {
      * Creates a category.
      *
      * @param categoryFieldsDto The category (required)
-     * @return category created successfully. (status code 200)
+     * @return category created successfully. (status code 201)
      *         or Not modified. (status code 304)
      *         or Bad request. (status code 400)
      *         or User not found. (status code 404)
@@ -61,7 +61,7 @@ public interface CategoriesApi {
         description = "Creates a category.",
         tags = { "category" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "category created successfully.", content = {
+            @ApiResponse(responseCode = "201", description = "category created successfully.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDto.class))
             }),
             @ApiResponse(responseCode = "304", description = "Not modified."),

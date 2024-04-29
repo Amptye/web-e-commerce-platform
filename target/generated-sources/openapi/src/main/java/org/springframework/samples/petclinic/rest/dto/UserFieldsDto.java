@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("UserFields")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-25T06:32:19.341577700+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
 public class UserFieldsDto {
 
   @JsonProperty("name")

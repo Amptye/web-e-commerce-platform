@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-25T06:32:19.341577700+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
 @Validated
 @Tag(name = "items", description = "the items API")
 public interface ItemsApi {
@@ -48,7 +48,7 @@ public interface ItemsApi {
      * Creates a item.
      *
      * @param itemFieldsDto The item (required)
-     * @return Item created successfully. (status code 200)
+     * @return Item created successfully. (status code 201)
      *         or Not modified. (status code 304)
      *         or Bad request. (status code 400)
      *         or User not found. (status code 404)
@@ -61,7 +61,7 @@ public interface ItemsApi {
         description = "Creates a item.",
         tags = { "item" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Item created successfully.", content = {
+            @ApiResponse(responseCode = "201", description = "Item created successfully.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ItemDto.class))
             }),
             @ApiResponse(responseCode = "304", description = "Not modified."),
@@ -103,7 +103,7 @@ public interface ItemsApi {
 
 
     /**
-     * POST /items/{itemId}/addone
+     * PUT /items/{itemId}/addone
      *
      * @param itemId The ID of the item. (required)
      * @return Item details found and returned. (status code 200)
@@ -136,7 +136,7 @@ public interface ItemsApi {
         }
     )
     @RequestMapping(
-        method = RequestMethod.POST,
+        method = RequestMethod.PUT,
         value = "/items/{itemId}/addone",
         produces = { "application/json" }
     )
@@ -299,7 +299,7 @@ public interface ItemsApi {
 
 
     /**
-     * POST /items/{itemId}/subone
+     * PUT /items/{itemId}/subone
      *
      * @param itemId The ID of the item. (required)
      * @return Item details found and returned. (status code 200)
@@ -332,7 +332,7 @@ public interface ItemsApi {
         }
     )
     @RequestMapping(
-        method = RequestMethod.POST,
+        method = RequestMethod.PUT,
         value = "/items/{itemId}/subone",
         produces = { "application/json" }
     )

@@ -1,0 +1,176 @@
+User:
+    properties:
+        id:
+          type: long
+        name:
+          type: string
+          minLength: 1
+          maxLength: 30
+          pattern: '^[a-zA-Z]*$'
+        email:
+          type: string
+          minLength: 1
+          maxLength: 255
+          pattern: '^\w+@\w+\.\w+$'
+        pass:
+          description: The password of the user.
+          type: string
+        money:
+          description: The money of the user.
+          type: double
+          minimum: 0
+        address:
+          type: string
+          minLength: 1
+          maxLength: 20
+          pattern: '^\w*$'
+        contact:
+          type: string
+          pattern: '^\d{0,20}$'
+        image:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/Item'
+    required:
+        - name
+Product:
+    properties:
+        id:
+          type: long
+        name:
+          type: string
+        price:
+          type: double
+          minimum: 0
+        image:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+          minimum: 0
+    required:
+        - name
+Item:（用户购物车中的商品块，每个 item 里有 quantity 个 ID 为 productId 的商品）
+    properties:
+      id:
+        type: long
+      userId:
+        description: 所属用户的ID
+        type: long
+      productId:
+        description: 所含商品的ID
+        type: long
+      quantity:
+        type: integer
+        format: int32
+        minimum: 0
+    required:
+        - productId
+        - quantity
+
+
+
+可以用的URI：（以下 URI 中，如果想操作的对象的 id==2，则 ".../{id}/..." 替换为 ".../2/..."）
+localhost:8080/users:
+    get:
+      summary: 所有 user
+      responses: 得到一个 User 类的数组，表示当前所有的 user
+    post:
+      summary: 创建一个用户
+      requestBody: 请求体：使用 json 格式发送请求，就是用 javascript 构造一个包含 User 中 required 的属性的类然后发送（不 required 的也可以有）
+      responses: 得到创建的 User 类
+
+
+localhost:8080/users/{userId}:
+    get:
+      summary: 用户信息
+      responses: 得到一个 User 类
+    put:
+      summary: 更新用户信息
+      requestBody: 请求体：使用 json 格式发送请求，就是用 javascript 构造一个包含 User 中 required 的属性的类然后发送（不 required 的也可以有）
+      responses: 得到更新的 User 类
+    delete:
+      summary: 删除用户
+      responses: 返回被删除的 User 类
+
+
+localhost:8080/users/{userId}/charge:
+    put:
+      summary: 付钱
+      responses: 返回付钱的 User 类
+
+
+localhost:8080/products:
+    get:
+      summary: 所有 product
+      responses:得到一个 Product 类的数组，表示当前所有的 product
+    post:
+      summary: 创建一个商品
+      requestBody: 请求体：使用 json 格式发送请求，就是用 javascript 构造一个包含 Product 中 required 的属性的类然后发送（不 required 的也可以有）
+      responses: 得到创建的 Product 类
+
+
+localhost:8080/products/{productId}:
+    get:
+      summary: 商品信息
+      responses: 得到一个 Product 类
+    put:
+      summary: 更新商品信息
+      requestBody: 请求体：使用 json 格式发送请求，就是用 javascript 构造一个包含 Product 中 required 的属性的类然后发送（不 required 的也可以有）
+      responses: 得到更新的 Product 类
+    patch:
+      summary: 更新商品信息
+      requestBody: 请求体：使用 json 格式发送请求，就是用 javascript 构造一个包含任意 Product 属性（除了 id）的类然后发送（想修改哪些属性就包含哪些）：
+      responses: 得到更新的 Product 类
+    delete:
+      summary: 删除商品
+      responses: 返回被删除的 Product 类
+
+
+localhost:8080/products/getByName/{productName}:（用商品名搜索商品）
+    get:
+      summary: 商品信息
+      responses: 得到一个 Product 类的数组
+
+
+localhost:8080/users/{userId}/{productId}:
+    post:
+      summary: 添加 1 件商品到购物车
+      responses: 返回添加的 Item 类
+
+
+localhost:8080/users/{userId}/items:
+    get:
+      summary: 一个用户的所有 item
+      responses: 得到一个 Item 类的数组，表示该用户的所有 item
+    post:
+      summary: 为该用户创建一个 item
+      requestBody: 请求体：使用 json 格式发送请求，就是用 javascript 构造一个包含 Item 中 required 的属性的类然后发送（不 required 的也可以有）
+      responses: 得到创建的 Item 类
+
+
+localhost:8080/users/{userId}/items/{itemId}:
+    get:
+      summary: Item 信息
+      responses: 得到一个 Item 类
+    put:
+      summary: 更新用户信息
+      requestBody: 请求体：使用 json 格式发送请求，就是用 javascript 构造一个包含 Item 中 required 的属性的类然后发送（不 required 的也可以有）
+      responses: 得到更新的 Item 类
+    delete:
+      summary: 删除该用户的该 item
+      responses: 返回被删除的 Item 类
+
+
+localhost:8080/users/{userId}/items/{itemId}/addone:
+    put:
+      summary: 使该 item 的 quantity 加 1。
+      responses: 得到更新的 Item 类
+
+
+localhost:8080/users/{userId}/items/{itemId}/subone:
+    put:
+      summary: 使该 item 的 quantity 减 1。
+      responses: 得到更新的 Item 类

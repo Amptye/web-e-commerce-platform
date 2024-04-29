@@ -8,3 +8,20 @@
 * 取消购物车
 * 结账
 * 商品无存货时无法添加入购物车
+
+## 运行方式
+第一次运行：
+```bash
+cd client
+npm install
+npm run build
+cd ..
+mvn clean spring-boot:run
+```
+后续运行：
+```bash
+cd client
+npm run build
+cd ..
+mvn clean spring-boot:run
+```

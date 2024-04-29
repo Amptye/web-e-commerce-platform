@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-25T06:32:19.341577700+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
 @Validated
 @Tag(name = "carts", description = "the carts API")
 public interface CartsApi {
@@ -50,7 +50,7 @@ public interface CartsApi {
      * Creates a cart.
      *
      * @param cartFieldsDto The cart (required)
-     * @return Cart created successfully. (status code 200)
+     * @return Cart created successfully. (status code 201)
      *         or Not modified. (status code 304)
      *         or Bad request. (status code 400)
      *         or User not found. (status code 404)
@@ -63,7 +63,7 @@ public interface CartsApi {
         description = "Creates a cart.",
         tags = { "cart" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Cart created successfully.", content = {
+            @ApiResponse(responseCode = "201", description = "Cart created successfully.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = CartDto.class))
             }),
             @ApiResponse(responseCode = "304", description = "Not modified."),
@@ -105,7 +105,7 @@ public interface CartsApi {
 
 
     /**
-     * POST /carts/{cartId}/items/{itemId}/addone
+     * PUT /carts/{cartId}/items/{itemId}/addone
      *
      * @param cartId The ID of the cart. (required)
      * @param itemId The ID of the item. (required)
@@ -139,7 +139,7 @@ public interface CartsApi {
         }
     )
     @RequestMapping(
-        method = RequestMethod.POST,
+        method = RequestMethod.PUT,
         value = "/carts/{cartId}/items/{itemId}/addone",
         produces = { "application/json" }
     )
@@ -638,7 +638,7 @@ public interface CartsApi {
 
 
     /**
-     * POST /carts/{cartId}/items/{itemId}/subone
+     * PUT /carts/{cartId}/items/{itemId}/subone
      *
      * @param cartId The ID of the cart. (required)
      * @param itemId The ID of the item. (required)
@@ -672,7 +672,7 @@ public interface CartsApi {
         }
     )
     @RequestMapping(
-        method = RequestMethod.POST,
+        method = RequestMethod.PUT,
         value = "/carts/{cartId}/items/{itemId}/subone",
         produces = { "application/json" }
     )

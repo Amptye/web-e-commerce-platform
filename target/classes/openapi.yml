@@ -38,7 +38,7 @@ paths:
               $ref: '#/components/schemas/UserFields'
         required: true
       responses:
-        200:
+        201:
           description: User created successfully.
           headers:
             ETag:
@@ -348,7 +348,7 @@ paths:
               $ref: '#/components/schemas/ProductFields'
         required: true
       responses:
-        200:
+        201:
           description: Product created successfully.
           headers:
             ETag:
@@ -696,7 +696,7 @@ paths:
               $ref: '#/components/schemas/ItemFields'
         required: true
       responses:
-        200:
+        201:
           description: Item created successfully.
           headers:
             ETag:
@@ -884,7 +884,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
   /items/{itemId}/addone:
-    post:
+    put:
       tags:
         - item
       operationId: addItemById
@@ -939,7 +939,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
   /items/{itemId}/subone:
-    post:
+    put:
       tags:
         - item
       operationId: subItemById
@@ -1026,7 +1026,7 @@ paths:
               $ref: '#/components/schemas/CartFields'
         required: true
       responses:
-        200:
+        201:
           description: Cart created successfully.
           headers:
             ETag:
@@ -1519,7 +1519,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
   /carts/{cartId}/items/{itemId}/addone:
-    post:
+    put:
       tags:
         - item
       operationId: addCartsItemById
@@ -1580,7 +1580,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
   /carts/{cartId}/items/{itemId}/subone:
-    post:
+    put:
       tags:
         - item
       operationId: subCartsItemById
@@ -1673,7 +1673,7 @@ paths:
               $ref: '#/components/schemas/CategoryFields'
         required: true
       responses:
-        200:
+        201:
           description: category created successfully.
           headers:
             ETag:
