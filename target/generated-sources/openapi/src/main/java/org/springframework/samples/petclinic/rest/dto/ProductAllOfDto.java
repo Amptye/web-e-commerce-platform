@@ -20,14 +20,11 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Product_allOf")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-30T23:29:28.124424100+08:00[Asia/Shanghai]")
 public class ProductAllOfDto {
 
   @JsonProperty("id")
   private Long id = null;
-
-  @JsonProperty("stock")
-  private Boolean stock;
 
   public ProductAllOfDto id(Long id) {
     this.id = id;
@@ -48,25 +45,6 @@ public class ProductAllOfDto {
     this.id = id;
   }
 
-  public ProductAllOfDto stock(Boolean stock) {
-    this.stock = stock;
-    return this;
-  }
-
-  /**
-   * Get stock
-   * @return stock
-  */
-  
-  @Schema(name = "stock", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public Boolean getStock() {
-    return stock;
-  }
-
-  public void setStock(Boolean stock) {
-    this.stock = stock;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -76,13 +54,12 @@ public class ProductAllOfDto {
       return false;
     }
     ProductAllOfDto productAllOf = (ProductAllOfDto) o;
-    return Objects.equals(this.id, productAllOf.id) &&
-        Objects.equals(this.stock, productAllOf.stock);
+    return Objects.equals(this.id, productAllOf.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, stock);
+    return Objects.hash(id);
   }
 
   @Override
@@ -90,7 +67,6 @@ public class ProductAllOfDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class ProductAllOfDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    stock: ").append(toIndentedString(stock)).append("\n");
     sb.append("}");
     return sb.toString();
   }

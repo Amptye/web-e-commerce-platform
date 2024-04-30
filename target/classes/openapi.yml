@@ -225,73 +225,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /users/{userId}/tax_update:
-    put:
-      tags:
-        - user
-      operationId: taxUpdateUser
-      summary: Update a user's details
-      description: Updates the user record with the specified details.
-      parameters:
-        - name: userId
-          in: path
-          description: The ID of the user.
-          required: true
-          schema:
-            type: long
-      requestBody:
-        description: The user details to use for the update.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TaxFields'
-        required: true
-      responses:
-        200:
-          description: User details found and returned.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        304:
-          description: Not modified.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
-        400:
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: User not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
   /users/{userId}/charge:
     put:
-      summary: charge for the user's cart
+      summary: charge for the user
       operationId: chargeUserById
       tags:
         - user
@@ -505,8 +441,6 @@ paths:
                   minimum: 0
                 image:
                   type: string
-                categoryId:
-                  type: long
                 quantity:
                   type: integer
                   format: int32
@@ -993,57 +927,32 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /carts:
-    get:
-      summary: List all carts
-      operationId: listCarts
-      tags:
-        - carts
-      responses:
-        '200':
-          description: A paged array of carts
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Carts"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+  /users/{userId}/{productId}:
     post:
       tags:
-        - cart
-      operationId: addCart
-      summary: Create a cart
-      description: Creates a cart.
-      requestBody:
-        description: The cart
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CartFields'
-        required: true
+        - item
+      operationId: addProductToUser
+      summary: Adds a product to a user
+      parameters:
+        - name: userId
+          in: path
+          description: The ID of the user.
+          required: true
+          schema:
+            type: long
+        - name: productId
+          in: path
+          description: The ID of the product.
+          required: true
+          schema:
+            type: long
       responses:
         201:
-          description: Cart created successfully.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
+          description: The item was sucessfully added.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Cart'
-        304:
-          description: Not modified.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
+                $ref: '#/components/schemas/Item'
         400:
           description: Bad request.
           content:
@@ -1068,204 +977,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /carts/{cartId}:
+  /users/{userId}/items:
     get:
-      summary: Info for a specific cart
-      operationId: showCartById
-      tags:
-        - cart
-      parameters:
-        - name: cartId
-          in: path
-          required: true
-          description: The id of the item to retrieve
-          schema:
-            type: long
-      responses:
-        '200':
-          description: Expected response to a valid request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Cart"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-    put:
-      tags:
-        - cart
-      operationId: clearCart
-      summary: Clear a cart's items
-      description: Clear a cart's items.
-      parameters:
-        - name: cartId
-          in: path
-          description: The ID of the cart.
-          required: true
-          schema:
-            type: long
-      responses:
-        200:
-          description: Item details found and returned.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
-        304:
-          description: Not modified.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
-        400:
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: Item not found for this cart.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-    delete:
-      tags:
-        - cart
-      operationId: deleteCart
-      summary: Delete an cart by ID
-      description: Returns the cart or a 404 error.
-      parameters:
-        - name: cartId
-          in: path
-          description: The ID of the cart.
-          required: true
-          schema:
-            type: long
-      responses:
-        200:
-          description: Cart details found and returned.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
-        304:
-          description: Not modified.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
-        400:
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: Owner  not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /carts/{cartId}/{productId}:
-    post:
-      tags:
-        - item
-      operationId: addProductToCart
-      summary: Adds a product to a cart
-      parameters:
-        - name: cartId
-          in: path
-          description: The ID of the cart.
-          required: true
-          schema:
-            type: long
-        - name: productId
-          in: path
-          description: The ID of the product.
-          required: true
-          schema:
-            type: long
-      responses:
-        201:
-          description: The item was sucessfully added.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
-        400:
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: Cart not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /carts/{cartId}/items:
-    get:
-      summary: List all items of a cart
-      operationId: listCartsItems
+      summary: List all items of a user
+      operationId: listUsersItems
       tags:
         - items
       parameters:
-        - name: cartId
+        - name: userId
           in: path
-          description: The ID of the cart.
+          description: The ID of the user.
           required: true
           schema:
             type: long
@@ -1285,13 +1006,13 @@ paths:
     post:
       tags:
         - item
-      operationId: addItemToCart
-      summary: Adds a item to a cart
+      operationId: addItemToUser
+      summary: Adds a item to a user
       description: Records the details of a new item.
       parameters:
-        - name: cartId
+        - name: userId
           in: path
-          description: The ID of the cart.
+          description: The ID of the user.
           required: true
           schema:
             type: long
@@ -1316,7 +1037,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         404:
-          description: Cart not found.
+          description: User not found.
           content:
             application/json:
               schema:
@@ -1333,17 +1054,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /carts/{cartId}/items/{itemId}:
+  /users/{userId}/items/{itemId}:
     get:
       tags:
         - item
-      operationId: getCartsItem
+      operationId: getUsersItem
       summary: Get a item by ID
       description: Returns the item or a 404 error.
       parameters:
-        - name: cartId
+        - name: userId
           in: path
-          description: The ID of the cart.
+          description: The ID of the user.
           required: true
           schema:
             type: long
@@ -1399,13 +1120,13 @@ paths:
     delete:
       tags:
         - item
-      operationId: deleteCartsItem
-      summary: Delete an item by ID in a Cart
+      operationId: deleteUsersItem
+      summary: Delete an item by ID in a User
       description: Returns the item or a 404 error.
       parameters:
-        - name: cartId
+        - name: userId
           in: path
-          description: The ID of the cart.
+          description: The ID of the user.
           required: true
           schema:
             type: long
@@ -1461,13 +1182,13 @@ paths:
     put:
       tags:
         - item
-      operationId: updateCartsItem
+      operationId: updateUsersItem
       summary: Update a item's details
       description: Updates the item record with the specified details.
       parameters:
-        - name: cartId
+        - name: userId
           in: path
-          description: The ID of the cart.
+          description: The ID of the user.
           required: true
           schema:
             type: long
@@ -1485,8 +1206,17 @@ paths:
               $ref: '#/components/schemas/ItemFields'
         required: true
       responses:
-        204:
-          description: Update successful.
+        200:
+          description: Item details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
         304:
           description: Not modified.
           headers:
@@ -1501,7 +1231,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         404:
-          description: Item not found for this cart.
+          description: Item not found for this user.
           content:
             application/json:
               schema:
@@ -1518,15 +1248,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /carts/{cartId}/items/{itemId}/addone:
+  /users/{userId}/items/{itemId}/addone:
     put:
       tags:
         - item
-      operationId: addCartsItemById
+      operationId: addUsersItemById
       parameters:
-        - name: cartId
+        - name: userId
           in: path
-          description: The ID of the cart.
+          description: The ID of the user.
           required: true
           schema:
             type: long
@@ -1579,15 +1309,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /carts/{cartId}/items/{itemId}/subone:
+  /users/{userId}/items/{itemId}/subone:
     put:
       tags:
         - item
-      operationId: subCartsItemById
+      operationId: subUsersItemById
       parameters:
-        - name: cartId
+        - name: userId
           in: path
-          description: The ID of the cart.
+          description: The ID of the user.
           required: true
           schema:
             type: long
@@ -1640,19 +1370,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /categories:
+  /users/{userId}/products:
     get:
-      summary: List all categories
-      operationId: listCategories
+      summary: List all products of a user
+      operationId: listUsersProducts
       tags:
-        - categories
+        - products
+      parameters:
+        - name: userId
+          in: path
+          description: The ID of the user.
+          required: true
+          schema:
+            type: long
       responses:
         '200':
-          description: A paged array of categories
+          description: A paged array of products
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Categories"
+                $ref: "#/components/schemas/Products"
         default:
           description: unexpected error
           content:
@@ -1661,36 +1398,31 @@ paths:
                 $ref: "#/components/schemas/Error"
     post:
       tags:
-        - category
-      operationId: addCategory
-      summary: Create a category
-      description: Creates a category.
+        - product
+      operationId: addProductToOwner
+      summary: Adds a product to a user
+      description: Records the details of a new product.
+      parameters:
+        - name: userId
+          in: path
+          description: The ID of the user.
+          required: true
+          schema:
+            type: long
       requestBody:
-        description: The category
+        description: The details of the new product.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CategoryFields'
+              $ref: '#/components/schemas/ProductFields'
         required: true
       responses:
         201:
-          description: category created successfully.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
+          description: The product was sucessfully added.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
-        304:
-          description: Not modified.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
+                $ref: '#/components/schemas/Product'
         400:
           description: Bad request.
           content:
@@ -1715,26 +1447,194 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /categories/{categoryId}:
+  /users/{userId}/products/{productId}:
     get:
-      summary: Info for a specific category
-      operationId: showCategoryById
       tags:
-        - category
+        - product
+      operationId: getOwnersProduct
+      summary: Get a product by ID
+      description: Returns the product or a 404 error.
       parameters:
-        - name: categoryId
+        - name: userId
           in: path
+          description: The ID of the user.
           required: true
-          description: The id of the item to retrieve
+          schema:
+            type: long
+        - name: productId
+          in: path
+          description: The ID of the product.
+          required: true
           schema:
             type: long
       responses:
-        '200':
-          description: Expected response to a valid request
+        200:
+          description: Item details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Category"
+                $ref: '#/components/schemas/Product'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Item not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - product
+      operationId: deleteOwnersProduct
+      summary: Delete an product by ID in a User
+      description: Returns the product or a 404 error.
+      parameters:
+        - name: userId
+          in: path
+          description: The ID of the user.
+          required: true
+          schema:
+            type: long
+        - name: productId
+          in: path
+          description: The ID of the product.
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: Item details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Owner  not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      tags:
+        - product
+      operationId: updateOwnersProduct
+      summary: Update a product's details
+      description: Updates the product record with the specified details.
+      parameters:
+        - name: userId
+          in: path
+          description: The ID of the user.
+          required: true
+          schema:
+            type: long
+        - name: productId
+          in: path
+          description: The ID of the product.
+          required: true
+          schema:
+            type: long
+      requestBody:
+        description: The product details to use for the update.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductFields'
+        required: true
+      responses:
+        200:
+          description: Product details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Item not found for this user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -1760,6 +1660,7 @@ components:
           type: string
           minLength: 1
           maxLength: 255
+          pattern: '^\w+@\w+\.\w+$'
           example: 'abc@ef.com'
         pass:
           title: Password
@@ -1774,53 +1675,35 @@ components:
           description: The money of the user.
           type: double
           minimum: 0
-        address1:
+        address:
           type: string
           minLength: 1
           maxLength: 20
           pattern: '^[0-9]*$'
           example: '10086'
-        address2:
-          type: string
-          minLength: 1
-          maxLength: 20
-          pattern: '^[0-9]*$'
-          example: '10087'
         contact:
           type: string
           pattern: '^\d{0,20}$'
-        symbol:
-          type: string
-        footer:
-          type: string
         image:
           type: string
       required:
         - name
-    TaxFields:
-      type: object
-      properties:
-        tax:
-          type: boolean
-        percentage:
-          type: integer
-          format: int32
-          minimum: 0
-          maximum: 100
-      required:
-        - tax
     User:
       title: User
       allOf:
         - $ref: '#/components/schemas/UserFields'
-        - $ref: '#/components/schemas/TaxFields'
         - type: object
           properties:
             id:
               type: long
-            cartId:
-              title: Cart ID
-              type: long
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Item'
+            products:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
           required:
             - id
     ProductFields:
@@ -1833,14 +1716,15 @@ components:
           minimum: 0
         image:
           type: string
-        categoryId:
-          type: long
         quantity:
           type: integer
           format: int32
           minimum: 0
+        ownerId:
+          type: long
       required:
         - name
+        - ownerId
     Product:
       allOf:
         - $ref: '#/components/schemas/ProductFields'
@@ -1848,8 +1732,6 @@ components:
           properties:
             id:
               type: long
-            stock:
-              type: boolean
           required:
             - id
     ItemFields:
@@ -1871,43 +1753,7 @@ components:
           properties:
             id:
               type: long
-            cartId:
-              type: long
-          required:
-            - id
-    CartFields:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
-      required:
-        - items
-    Cart:
-      allOf:
-        - $ref: '#/components/schemas/CartFields'
-        - type: object
-          properties:
-            id:
-              type: long
             userId:
-              type: long
-          required:
-            - id
-    CategoryFields:
-      type: object
-      properties:
-        name:
-          type: string
-      required:
-        - name
-    Category:
-      allOf:
-        - $ref: '#/components/schemas/CategoryFields'
-        - type: object
-          properties:
-            id:
               type: long
           required:
             - id
@@ -1923,14 +1769,6 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Item"
-    Carts:
-      type: array
-      items:
-        $ref: "#/components/schemas/Cart"
-    Categories:
-      type: array
-      items:
-        $ref: "#/components/schemas/Category"
     Error:
       type: object
       required:

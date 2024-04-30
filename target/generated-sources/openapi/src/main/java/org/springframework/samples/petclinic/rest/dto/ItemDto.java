@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Item")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-30T23:29:28.124424100+08:00[Asia/Shanghai]")
 public class ItemDto {
 
   @JsonProperty("productId")
@@ -32,8 +32,8 @@ public class ItemDto {
   @JsonProperty("id")
   private Long id = null;
 
-  @JsonProperty("cartId")
-  private Long cartId = null;
+  @JsonProperty("userId")
+  private Long userId = null;
 
   public ItemDto productId(Long productId) {
     this.productId = productId;
@@ -93,23 +93,23 @@ public class ItemDto {
     this.id = id;
   }
 
-  public ItemDto cartId(Long cartId) {
-    this.cartId = cartId;
+  public ItemDto userId(Long userId) {
+    this.userId = userId;
     return this;
   }
 
   /**
-   * Get cartId
-   * @return cartId
+   * Get userId
+   * @return userId
   */
   
-  @Schema(name = "cartId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public Long getCartId() {
-    return cartId;
+  @Schema(name = "userId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  public Long getUserId() {
+    return userId;
   }
 
-  public void setCartId(Long cartId) {
-    this.cartId = cartId;
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
   @Override
@@ -124,12 +124,12 @@ public class ItemDto {
     return Objects.equals(this.productId, item.productId) &&
         Objects.equals(this.quantity, item.quantity) &&
         Objects.equals(this.id, item.id) &&
-        Objects.equals(this.cartId, item.cartId);
+        Objects.equals(this.userId, item.userId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(productId, quantity, id, cartId);
+    return Objects.hash(productId, quantity, id, userId);
   }
 
   @Override
@@ -139,7 +139,7 @@ public class ItemDto {
     sb.append("    productId: ").append(toIndentedString(productId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    cartId: ").append(toIndentedString(cartId)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

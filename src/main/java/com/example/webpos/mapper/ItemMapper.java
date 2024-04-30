@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface ItemMapper {
 
-    @Mapping(source = "cart.id", target = "cartId")
+    @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "product.id", target = "productId")
     ItemDto toItemDto(Item item);
 

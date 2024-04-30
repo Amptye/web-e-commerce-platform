@@ -1,7 +1,7 @@
 package com.example.webpos.mapper;
 
-import com.example.webpos.model.Category;
 import com.example.webpos.model.Product;
+import com.example.webpos.model.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,13 +24,12 @@ public class ProductMapperImpl implements ProductMapper {
 
         ProductDto productDto = new ProductDto();
 
-        productDto.setCategoryId( productCategoryId( product ) );
+        productDto.setOwnerId( productOwnerId( product ) );
         productDto.setName( product.getName() );
         productDto.setPrice( product.getPrice() );
         productDto.setImage( product.getImage() );
         productDto.setQuantity( product.getQuantity() );
         productDto.setId( product.getId() );
-        productDto.setStock( product.isStock() );
 
         return productDto;
     }
@@ -53,9 +52,6 @@ public class ProductMapperImpl implements ProductMapper {
         product.setImage( productDto.getImage() );
         if ( productDto.getQuantity() != null ) {
             product.setQuantity( productDto.getQuantity() );
-        }
-        if ( productDto.getStock() != null ) {
-            product.setStock( productDto.getStock() );
         }
 
         return product;
@@ -109,15 +105,15 @@ public class ProductMapperImpl implements ProductMapper {
         return collection;
     }
 
-    private Long productCategoryId(Product product) {
+    private Long productOwnerId(Product product) {
         if ( product == null ) {
             return null;
         }
-        Category category = product.getCategory();
-        if ( category == null ) {
+        User owner = product.getOwner();
+        if ( owner == null ) {
             return null;
         }
-        long id = category.getId();
+        long id = owner.getId();
         return id;
     }
 }

@@ -2,7 +2,6 @@ package com.example.webpos.web;
 
 import com.example.webpos.biz.PosService;
 import com.example.webpos.mapper.ProductMapper;
-import com.example.webpos.model.Category;
 import com.example.webpos.model.Product;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -51,25 +50,14 @@ public class ProductController implements ProductsApi {
     @Override
     public ResponseEntity<ProductDto> addProduct(ProductFieldsDto productFieldsDto) {
         HttpHeaders headers = new HttpHeaders();
-        Category category = null;
-        if(productFieldsDto.getCategoryId() != null) {
-            category = this.posService.findCategoryById(productFieldsDto.getCategoryId());
-            if (category == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }
         Product product = productMapper.toProduct(productFieldsDto);
-        product.setCategory(category);
         if(productFieldsDto.getQuantity() == null){
             product.setQuantity(1);
         } else {
             product.setQuantity(productFieldsDto.getQuantity());
         }
         if(product.getQuantity() <= 0){
-            product.setStock(false);
             product.setQuantity(0);
-        } else {
-            product.setStock(true);
         }
         this.posService.saveProduct(product);
         ProductDto productDto = productMapper.toProductDto(product);

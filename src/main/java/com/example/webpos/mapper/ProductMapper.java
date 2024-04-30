@@ -13,7 +13,7 @@ import java.util.*;
 @Mapper
 public interface ProductMapper {
 
-    @Mapping(source = "category.id", target = "categoryId")
+    @Mapping(source = "owner.id", target = "ownerId")
     ProductDto toProductDto(Product product);
 
     Product toProduct(ProductDto productDto);

@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("UserFields")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-30T23:29:28.124424100+08:00[Asia/Shanghai]")
 public class UserFieldsDto {
 
   @JsonProperty("name")
@@ -35,20 +35,11 @@ public class UserFieldsDto {
   @JsonProperty("money")
   private Double money = null;
 
-  @JsonProperty("address1")
-  private String address1;
-
-  @JsonProperty("address2")
-  private String address2;
+  @JsonProperty("address")
+  private String address;
 
   @JsonProperty("contact")
   private String contact;
-
-  @JsonProperty("symbol")
-  private String symbol;
-
-  @JsonProperty("footer")
-  private String footer;
 
   @JsonProperty("image")
   private String image;
@@ -81,7 +72,7 @@ public class UserFieldsDto {
    * The email of the user.
    * @return email
   */
-  @Size(min = 1, max = 255) 
+  @Pattern(regexp = "^\\w+@\\w+\\.\\w+$") @Size(min = 1, max = 255) 
   @Schema(name = "email", example = "abc@ef.com", description = "The email of the user.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getEmail() {
     return email;
@@ -129,42 +120,23 @@ public class UserFieldsDto {
     this.money = money;
   }
 
-  public UserFieldsDto address1(String address1) {
-    this.address1 = address1;
+  public UserFieldsDto address(String address) {
+    this.address = address;
     return this;
   }
 
   /**
-   * Get address1
-   * @return address1
+   * Get address
+   * @return address
   */
   @Pattern(regexp = "^[0-9]*$") @Size(min = 1, max = 20) 
-  @Schema(name = "address1", example = "10086", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public String getAddress1() {
-    return address1;
+  @Schema(name = "address", example = "10086", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  public String getAddress() {
+    return address;
   }
 
-  public void setAddress1(String address1) {
-    this.address1 = address1;
-  }
-
-  public UserFieldsDto address2(String address2) {
-    this.address2 = address2;
-    return this;
-  }
-
-  /**
-   * Get address2
-   * @return address2
-  */
-  @Pattern(regexp = "^[0-9]*$") @Size(min = 1, max = 20) 
-  @Schema(name = "address2", example = "10087", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public String getAddress2() {
-    return address2;
-  }
-
-  public void setAddress2(String address2) {
-    this.address2 = address2;
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   public UserFieldsDto contact(String contact) {
@@ -184,44 +156,6 @@ public class UserFieldsDto {
 
   public void setContact(String contact) {
     this.contact = contact;
-  }
-
-  public UserFieldsDto symbol(String symbol) {
-    this.symbol = symbol;
-    return this;
-  }
-
-  /**
-   * Get symbol
-   * @return symbol
-  */
-  
-  @Schema(name = "symbol", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
-  }
-
-  public UserFieldsDto footer(String footer) {
-    this.footer = footer;
-    return this;
-  }
-
-  /**
-   * Get footer
-   * @return footer
-  */
-  
-  @Schema(name = "footer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public String getFooter() {
-    return footer;
-  }
-
-  public void setFooter(String footer) {
-    this.footer = footer;
   }
 
   public UserFieldsDto image(String image) {
@@ -256,17 +190,14 @@ public class UserFieldsDto {
         Objects.equals(this.email, userFields.email) &&
         Objects.equals(this.pass, userFields.pass) &&
         Objects.equals(this.money, userFields.money) &&
-        Objects.equals(this.address1, userFields.address1) &&
-        Objects.equals(this.address2, userFields.address2) &&
+        Objects.equals(this.address, userFields.address) &&
         Objects.equals(this.contact, userFields.contact) &&
-        Objects.equals(this.symbol, userFields.symbol) &&
-        Objects.equals(this.footer, userFields.footer) &&
         Objects.equals(this.image, userFields.image);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, email, pass, money, address1, address2, contact, symbol, footer, image);
+    return Objects.hash(name, email, pass, money, address, contact, image);
   }
 
   @Override
@@ -277,11 +208,8 @@ public class UserFieldsDto {
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    pass: ").append(toIndentedString(pass)).append("\n");
     sb.append("    money: ").append(toIndentedString(money)).append("\n");
-    sb.append("    address1: ").append(toIndentedString(address1)).append("\n");
-    sb.append("    address2: ").append(toIndentedString(address2)).append("\n");
+    sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    contact: ").append(toIndentedString(contact)).append("\n");
-    sb.append("    symbol: ").append(toIndentedString(symbol)).append("\n");
-    sb.append("    footer: ").append(toIndentedString(footer)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("}");
     return sb.toString();

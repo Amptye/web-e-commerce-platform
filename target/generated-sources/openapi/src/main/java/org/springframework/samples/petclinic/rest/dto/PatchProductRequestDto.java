@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("patchProduct_request")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-30T23:29:28.124424100+08:00[Asia/Shanghai]")
 public class PatchProductRequestDto {
 
   @JsonProperty("name")
@@ -31,9 +31,6 @@ public class PatchProductRequestDto {
 
   @JsonProperty("image")
   private String image;
-
-  @JsonProperty("categoryId")
-  private Long categoryId = null;
 
   @JsonProperty("quantity")
   private Integer quantity;
@@ -95,25 +92,6 @@ public class PatchProductRequestDto {
     this.image = image;
   }
 
-  public PatchProductRequestDto categoryId(Long categoryId) {
-    this.categoryId = categoryId;
-    return this;
-  }
-
-  /**
-   * Get categoryId
-   * @return categoryId
-  */
-  
-  @Schema(name = "categoryId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public Long getCategoryId() {
-    return categoryId;
-  }
-
-  public void setCategoryId(Long categoryId) {
-    this.categoryId = categoryId;
-  }
-
   public PatchProductRequestDto quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
@@ -146,13 +124,12 @@ public class PatchProductRequestDto {
     return Objects.equals(this.name, patchProductRequest.name) &&
         Objects.equals(this.price, patchProductRequest.price) &&
         Objects.equals(this.image, patchProductRequest.image) &&
-        Objects.equals(this.categoryId, patchProductRequest.categoryId) &&
         Objects.equals(this.quantity, patchProductRequest.quantity);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, price, image, categoryId, quantity);
+    return Objects.hash(name, price, image, quantity);
   }
 
   @Override
@@ -162,7 +139,6 @@ public class PatchProductRequestDto {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
-    sb.append("    categoryId: ").append(toIndentedString(categoryId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("}");
     return sb.toString();

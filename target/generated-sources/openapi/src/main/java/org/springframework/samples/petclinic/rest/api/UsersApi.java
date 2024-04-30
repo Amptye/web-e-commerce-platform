@@ -6,7 +6,10 @@
 package org.springframework.samples.petclinic.rest.api;
 
 import org.springframework.samples.petclinic.rest.dto.ErrorDto;
-import org.springframework.samples.petclinic.rest.dto.TaxFieldsDto;
+import org.springframework.samples.petclinic.rest.dto.ItemDto;
+import org.springframework.samples.petclinic.rest.dto.ItemFieldsDto;
+import org.springframework.samples.petclinic.rest.dto.ProductDto;
+import org.springframework.samples.petclinic.rest.dto.ProductFieldsDto;
 import org.springframework.samples.petclinic.rest.dto.UserDto;
 import org.springframework.samples.petclinic.rest.dto.UserFieldsDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -35,7 +38,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-30T23:29:28.124424100+08:00[Asia/Shanghai]")
 @Validated
 @Tag(name = "users", description = "the users API")
 public interface UsersApi {
@@ -43,6 +46,180 @@ public interface UsersApi {
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
+
+    /**
+     * POST /users/{userId}/items : Adds a item to a user
+     * Records the details of a new item.
+     *
+     * @param userId The ID of the user. (required)
+     * @param itemFieldsDto The details of the new item. (required)
+     * @return The item was sucessfully added. (status code 201)
+     *         or Bad request. (status code 400)
+     *         or User not found. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "addItemToUser",
+        summary = "Adds a item to a user",
+        description = "Records the details of a new item.",
+        tags = { "item" },
+        responses = {
+            @ApiResponse(responseCode = "201", description = "The item was sucessfully added.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ItemDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "User not found.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/users/{userId}/items",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    default ResponseEntity<ItemDto> addItemToUser(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "ItemFieldsDto", description = "The details of the new item.", required = true) @Valid @RequestBody ItemFieldsDto itemFieldsDto
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * POST /users/{userId}/products : Adds a product to a user
+     * Records the details of a new product.
+     *
+     * @param userId The ID of the user. (required)
+     * @param productFieldsDto The details of the new product. (required)
+     * @return The product was sucessfully added. (status code 201)
+     *         or Bad request. (status code 400)
+     *         or User not found. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "addProductToOwner",
+        summary = "Adds a product to a user",
+        description = "Records the details of a new product.",
+        tags = { "product" },
+        responses = {
+            @ApiResponse(responseCode = "201", description = "The product was sucessfully added.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "User not found.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/users/{userId}/products",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    default ResponseEntity<ProductDto> addProductToOwner(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "ProductFieldsDto", description = "The details of the new product.", required = true) @Valid @RequestBody ProductFieldsDto productFieldsDto
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * POST /users/{userId}/{productId} : Adds a product to a user
+     *
+     * @param userId The ID of the user. (required)
+     * @param productId The ID of the product. (required)
+     * @return The item was sucessfully added. (status code 201)
+     *         or Bad request. (status code 400)
+     *         or User not found. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "addProductToUser",
+        summary = "Adds a product to a user",
+        tags = { "item" },
+        responses = {
+            @ApiResponse(responseCode = "201", description = "The item was sucessfully added.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ItemDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "User not found.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/users/{userId}/{productId}",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<ItemDto> addProductToUser(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "productId", description = "The ID of the product.", required = true, in = ParameterIn.PATH) @PathVariable("productId") Long productId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 
     /**
      * POST /users : Create a user
@@ -104,7 +281,64 @@ public interface UsersApi {
 
 
     /**
-     * PUT /users/{userId}/charge : charge for the user&#39;s cart
+     * PUT /users/{userId}/items/{itemId}/addone
+     *
+     * @param userId The ID of the user. (required)
+     * @param itemId The ID of the item. (required)
+     * @return Item details found and returned. (status code 200)
+     *         or Not modified. (status code 304)
+     *         or Bad request. (status code 400)
+     *         or User not found. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "addUsersItemById",
+        tags = { "item" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Item details found and returned.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ItemDto.class))
+            }),
+            @ApiResponse(responseCode = "304", description = "Not modified."),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "User not found.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.PUT,
+        value = "/users/{userId}/items/{itemId}/addone",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<ItemDto> addUsersItemById(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "itemId", description = "The ID of the item.", required = true, in = ParameterIn.PATH) @PathVariable("itemId") Long itemId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * PUT /users/{userId}/charge : charge for the user
      *
      * @param userId The id of the user to retrieve (required)
      * @return Expected response to a valid request (status code 200)
@@ -112,7 +346,7 @@ public interface UsersApi {
      */
     @Operation(
         operationId = "chargeUserById",
-        summary = "charge for the user's cart",
+        summary = "charge for the user",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Expected response to a valid request", content = {
@@ -130,6 +364,66 @@ public interface UsersApi {
     )
     default ResponseEntity<UserDto> chargeUserById(
         @Parameter(name = "userId", description = "The id of the user to retrieve", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * DELETE /users/{userId}/products/{productId} : Delete an product by ID in a User
+     * Returns the product or a 404 error.
+     *
+     * @param userId The ID of the user. (required)
+     * @param productId The ID of the product. (required)
+     * @return Item details found and returned. (status code 200)
+     *         or Not modified. (status code 304)
+     *         or Bad request. (status code 400)
+     *         or Owner  not found. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "deleteOwnersProduct",
+        summary = "Delete an product by ID in a User",
+        description = "Returns the product or a 404 error.",
+        tags = { "product" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Item details found and returned.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))
+            }),
+            @ApiResponse(responseCode = "304", description = "Not modified."),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Owner  not found.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/users/{userId}/products/{productId}",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<ProductDto> deleteOwnersProduct(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "productId", description = "The ID of the product.", required = true, in = ParameterIn.PATH) @PathVariable("productId") Long productId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -204,6 +498,186 @@ public interface UsersApi {
 
 
     /**
+     * DELETE /users/{userId}/items/{itemId} : Delete an item by ID in a User
+     * Returns the item or a 404 error.
+     *
+     * @param userId The ID of the user. (required)
+     * @param itemId The ID of the item. (required)
+     * @return Item details found and returned. (status code 200)
+     *         or Not modified. (status code 304)
+     *         or Bad request. (status code 400)
+     *         or Owner  not found. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "deleteUsersItem",
+        summary = "Delete an item by ID in a User",
+        description = "Returns the item or a 404 error.",
+        tags = { "item" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Item details found and returned.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ItemDto.class))
+            }),
+            @ApiResponse(responseCode = "304", description = "Not modified."),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Owner  not found.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/users/{userId}/items/{itemId}",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<ItemDto> deleteUsersItem(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "itemId", description = "The ID of the item.", required = true, in = ParameterIn.PATH) @PathVariable("itemId") Long itemId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * GET /users/{userId}/products/{productId} : Get a product by ID
+     * Returns the product or a 404 error.
+     *
+     * @param userId The ID of the user. (required)
+     * @param productId The ID of the product. (required)
+     * @return Item details found and returned. (status code 200)
+     *         or Not modified. (status code 304)
+     *         or Bad request. (status code 400)
+     *         or Item not found. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "getOwnersProduct",
+        summary = "Get a product by ID",
+        description = "Returns the product or a 404 error.",
+        tags = { "product" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Item details found and returned.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))
+            }),
+            @ApiResponse(responseCode = "304", description = "Not modified."),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Item not found.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/users/{userId}/products/{productId}",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<ProductDto> getOwnersProduct(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "productId", description = "The ID of the product.", required = true, in = ParameterIn.PATH) @PathVariable("productId") Long productId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * GET /users/{userId}/items/{itemId} : Get a item by ID
+     * Returns the item or a 404 error.
+     *
+     * @param userId The ID of the user. (required)
+     * @param itemId The ID of the item. (required)
+     * @return Item details found and returned. (status code 200)
+     *         or Not modified. (status code 304)
+     *         or Bad request. (status code 400)
+     *         or Item not found. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "getUsersItem",
+        summary = "Get a item by ID",
+        description = "Returns the item or a 404 error.",
+        tags = { "item" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Item details found and returned.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ItemDto.class))
+            }),
+            @ApiResponse(responseCode = "304", description = "Not modified."),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Item not found.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/users/{userId}/items/{itemId}",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<ItemDto> getUsersItem(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "itemId", description = "The ID of the item.", required = true, in = ParameterIn.PATH) @PathVariable("itemId") Long itemId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
      * GET /users : List all users
      *
      * @return A paged array of users (status code 200)
@@ -229,6 +703,90 @@ public interface UsersApi {
     )
     default ResponseEntity<List<UserDto>> listUsers(
         
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "[ null, null ]";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * GET /users/{userId}/items : List all items of a user
+     *
+     * @param userId The ID of the user. (required)
+     * @return A paged array of items (status code 200)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "listUsersItems",
+        summary = "List all items of a user",
+        tags = { "items" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "A paged array of items", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ItemDto.class)))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/users/{userId}/items",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<List<ItemDto>> listUsersItems(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "[ null, null ]";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * GET /users/{userId}/products : List all products of a user
+     *
+     * @param userId The ID of the user. (required)
+     * @return A paged array of products (status code 200)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "listUsersProducts",
+        summary = "List all products of a user",
+        tags = { "products" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "A paged array of products", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProductDto.class)))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/users/{userId}/products",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<List<ProductDto>> listUsersProducts(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -287,12 +845,11 @@ public interface UsersApi {
 
 
     /**
-     * PUT /users/{userId}/tax_update : Update a user&#39;s details
-     * Updates the user record with the specified details.
+     * PUT /users/{userId}/items/{itemId}/subone
      *
      * @param userId The ID of the user. (required)
-     * @param taxFieldsDto The user details to use for the update. (required)
-     * @return User details found and returned. (status code 200)
+     * @param itemId The ID of the item. (required)
+     * @return Item details found and returned. (status code 200)
      *         or Not modified. (status code 304)
      *         or Bad request. (status code 400)
      *         or User not found. (status code 404)
@@ -300,13 +857,11 @@ public interface UsersApi {
      *         or unexpected error (status code 200)
      */
     @Operation(
-        operationId = "taxUpdateUser",
-        summary = "Update a user's details",
-        description = "Updates the user record with the specified details.",
-        tags = { "user" },
+        operationId = "subUsersItemById",
+        tags = { "item" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "User details found and returned.", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+            @ApiResponse(responseCode = "200", description = "Item details found and returned.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ItemDto.class))
             }),
             @ApiResponse(responseCode = "304", description = "Not modified."),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = {
@@ -325,13 +880,75 @@ public interface UsersApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/users/{userId}/tax_update",
+        value = "/users/{userId}/items/{itemId}/subone",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<ItemDto> subUsersItemById(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "itemId", description = "The ID of the item.", required = true, in = ParameterIn.PATH) @PathVariable("itemId") Long itemId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * PUT /users/{userId}/products/{productId} : Update a product&#39;s details
+     * Updates the product record with the specified details.
+     *
+     * @param userId The ID of the user. (required)
+     * @param productId The ID of the product. (required)
+     * @param productFieldsDto The product details to use for the update. (required)
+     * @return Product details found and returned. (status code 200)
+     *         or Not modified. (status code 304)
+     *         or Bad request. (status code 400)
+     *         or Item not found for this user. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "updateOwnersProduct",
+        summary = "Update a product's details",
+        description = "Updates the product record with the specified details.",
+        tags = { "product" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Product details found and returned.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))
+            }),
+            @ApiResponse(responseCode = "304", description = "Not modified."),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Item not found for this user.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.PUT,
+        value = "/users/{userId}/products/{productId}",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<UserDto> taxUpdateUser(
+    default ResponseEntity<ProductDto> updateOwnersProduct(
         @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
-        @Parameter(name = "TaxFieldsDto", description = "The user details to use for the update.", required = true) @Valid @RequestBody TaxFieldsDto taxFieldsDto
+        @Parameter(name = "productId", description = "The ID of the product.", required = true, in = ParameterIn.PATH) @PathVariable("productId") Long productId,
+        @Parameter(name = "ProductFieldsDto", description = "The product details to use for the update.", required = true) @Valid @RequestBody ProductFieldsDto productFieldsDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -393,6 +1010,69 @@ public interface UsersApi {
     default ResponseEntity<UserDto> updateUser(
         @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
         @Parameter(name = "UserFieldsDto", description = "The user details to use for the update.", required = true) @Valid @RequestBody UserFieldsDto userFieldsDto
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * PUT /users/{userId}/items/{itemId} : Update a item&#39;s details
+     * Updates the item record with the specified details.
+     *
+     * @param userId The ID of the user. (required)
+     * @param itemId The ID of the item. (required)
+     * @param itemFieldsDto The item details to use for the update. (required)
+     * @return Item details found and returned. (status code 200)
+     *         or Not modified. (status code 304)
+     *         or Bad request. (status code 400)
+     *         or Item not found for this user. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "updateUsersItem",
+        summary = "Update a item's details",
+        description = "Updates the item record with the specified details.",
+        tags = { "item" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Item details found and returned.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ItemDto.class))
+            }),
+            @ApiResponse(responseCode = "304", description = "Not modified."),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Item not found for this user.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.PUT,
+        value = "/users/{userId}/items/{itemId}",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    default ResponseEntity<ItemDto> updateUsersItem(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "itemId", description = "The ID of the item.", required = true, in = ParameterIn.PATH) @PathVariable("itemId") Long itemId,
+        @Parameter(name = "ItemFieldsDto", description = "The item details to use for the update.", required = true) @Valid @RequestBody ItemFieldsDto itemFieldsDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

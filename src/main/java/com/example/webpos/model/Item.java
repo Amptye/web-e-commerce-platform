@@ -3,7 +3,6 @@ package com.example.webpos.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.samples.petclinic.rest.api.CartsApi;
 
 @Entity
 @Table(name = "items")
@@ -16,15 +15,15 @@ public class Item {
     private Product product;
     private int quantity;
     @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Item(){
 
     }
 
-    public Item(Cart cart, Product product, int quantity) {
-        this.cart = cart;
+    public Item(User user, Product product, int quantity) {
+        this.user = user;
         this.product = product;
         this.quantity = quantity;
     }
@@ -53,12 +52,16 @@ public class Item {
         this.quantity = quantity;
     }
 
-    public Cart getCart() {
-        return cart;
+    public User getUser() {
+        return user;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public double getPrice(){
+        return this.getQuantity() * this.getProduct().getPrice();
     }
 
     @Override

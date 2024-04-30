@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ProductFields")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-30T23:29:28.124424100+08:00[Asia/Shanghai]")
 public class ProductFieldsDto {
 
   @JsonProperty("name")
@@ -32,11 +32,11 @@ public class ProductFieldsDto {
   @JsonProperty("image")
   private String image;
 
-  @JsonProperty("categoryId")
-  private Long categoryId = null;
-
   @JsonProperty("quantity")
   private Integer quantity;
+
+  @JsonProperty("ownerId")
+  private Long ownerId = null;
 
   public ProductFieldsDto name(String name) {
     this.name = name;
@@ -95,25 +95,6 @@ public class ProductFieldsDto {
     this.image = image;
   }
 
-  public ProductFieldsDto categoryId(Long categoryId) {
-    this.categoryId = categoryId;
-    return this;
-  }
-
-  /**
-   * Get categoryId
-   * @return categoryId
-  */
-  
-  @Schema(name = "categoryId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public Long getCategoryId() {
-    return categoryId;
-  }
-
-  public void setCategoryId(Long categoryId) {
-    this.categoryId = categoryId;
-  }
-
   public ProductFieldsDto quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
@@ -134,6 +115,25 @@ public class ProductFieldsDto {
     this.quantity = quantity;
   }
 
+  public ProductFieldsDto ownerId(Long ownerId) {
+    this.ownerId = ownerId;
+    return this;
+  }
+
+  /**
+   * Get ownerId
+   * @return ownerId
+  */
+  @NotNull 
+  @Schema(name = "ownerId", requiredMode = Schema.RequiredMode.REQUIRED)
+  public Long getOwnerId() {
+    return ownerId;
+  }
+
+  public void setOwnerId(Long ownerId) {
+    this.ownerId = ownerId;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -146,13 +146,13 @@ public class ProductFieldsDto {
     return Objects.equals(this.name, productFields.name) &&
         Objects.equals(this.price, productFields.price) &&
         Objects.equals(this.image, productFields.image) &&
-        Objects.equals(this.categoryId, productFields.categoryId) &&
-        Objects.equals(this.quantity, productFields.quantity);
+        Objects.equals(this.quantity, productFields.quantity) &&
+        Objects.equals(this.ownerId, productFields.ownerId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, price, image, categoryId, quantity);
+    return Objects.hash(name, price, image, quantity, ownerId);
   }
 
   @Override
@@ -162,8 +162,8 @@ public class ProductFieldsDto {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
-    sb.append("    categoryId: ").append(toIndentedString(categoryId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+    sb.append("    ownerId: ").append(toIndentedString(ownerId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

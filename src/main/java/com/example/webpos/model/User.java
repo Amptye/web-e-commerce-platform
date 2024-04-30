@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -18,26 +21,22 @@ public class User {
     private String name;
 
     //@NotBlank(message = "Email is mandatory")
+    @Pattern(regexp = "^\\w+@\\w+\\.\\w+$")
     private String email;
 
     //@NotBlank(message = "Password is mandatory")
     private String pass;
 
     private double money = 0;
-    @OneToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
     @Pattern(regexp = "^\\d{0,20}$", message = "必须是 1 到 20 位的数字")
-    private String address1 = "";
-    @Pattern(regexp = "^\\d{0,20}$", message = "必须是 1 到 20 位的数字")
-    private String address2 = "";
+    private String address = "";
     @Pattern(regexp = "^\\d{0,20}$", message = "必须是 1 到 20 位的数字")
     private String contact = "";
-    private boolean tax;
-    private int percentage;
-    private String symbol;
-    private String footer;
     private String image;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Item> items = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private List<Product> products = new ArrayList<>();
 
     public User() {
     }
@@ -48,15 +47,10 @@ public class User {
         this.pass = pass;
     }
 
-    public User(String name, String address1, String address2, String contact, boolean tax, int percentage, String symbol, String footer, String image) {
+    public User(String name, String address, String contact, String image) {
         this.name = name;
-        this.address1 = address1;
-        this.address2 = address2;
+        this.address = address;
         this.contact = contact;
-        this.tax = tax;
-        this.percentage = percentage;
-        this.symbol = symbol;
-        this.footer = footer;
         this.image = image;
     }
 
@@ -100,28 +94,36 @@ public class User {
         this.money = money;
     }
 
-    public Cart getCart() {
-        return cart;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
-    public String getAddress1() {
-        return address1;
+    public boolean addItem(Item item) {
+        return items.add(item);
     }
 
-    public void setAddress1(String address1) {
-        this.address1 = address1;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public String getAddress2() {
-        return address2;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
-    public void setAddress2(String address2) {
-        this.address2 = address2;
+    public boolean addProduct(Product product){
+        return products.add(product);
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getContact() {
@@ -130,38 +132,6 @@ public class User {
 
     public void setContact(String contact) {
         this.contact = contact;
-    }
-
-    public boolean isTax() {
-        return tax;
-    }
-
-    public void setTax(boolean tax) {
-        this.tax = tax;
-    }
-
-    public int getPercentage() {
-        return percentage;
-    }
-
-    public void setPercentage(int percentage) {
-        this.percentage = percentage;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public String getFooter() {
-        return footer;
-    }
-
-    public void setFooter(String footer) {
-        this.footer = footer;
     }
 
     public String getImage() {
@@ -178,7 +148,23 @@ public class User {
 
     public void subMoney(double money){
         this.money -= money;
+    }
 
+    public void clearItems(){
+        this.items.clear();
+    }
+
+    public boolean charge(){
+        double total = 0;
+        for(Item item : items){
+            total += item.getPrice();
+        }
+        if(total <= this.money){
+            this.money -= total;
+            this.items.clear();
+            return true;
+        }
+        return false;
     }
 
     @Override

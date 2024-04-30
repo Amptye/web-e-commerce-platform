@@ -1,8 +1,8 @@
 package com.example.webpos.mapper;
 
-import com.example.webpos.model.Cart;
 import com.example.webpos.model.Item;
 import com.example.webpos.model.Product;
+import com.example.webpos.model.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,7 +25,7 @@ public class ItemMapperImpl implements ItemMapper {
 
         ItemDto itemDto = new ItemDto();
 
-        itemDto.setCartId( itemCartId( item ) );
+        itemDto.setUserId( itemUserId( item ) );
         itemDto.setProductId( itemProductId( item ) );
         itemDto.setQuantity( item.getQuantity() );
         itemDto.setId( item.getId() );
@@ -94,15 +94,15 @@ public class ItemMapperImpl implements ItemMapper {
         return collection;
     }
 
-    private Long itemCartId(Item item) {
+    private Long itemUserId(Item item) {
         if ( item == null ) {
             return null;
         }
-        Cart cart = item.getCart();
-        if ( cart == null ) {
+        User user = item.getUser();
+        if ( user == null ) {
             return null;
         }
-        long id = cart.getId();
+        long id = user.getId();
         return id;
     }
 

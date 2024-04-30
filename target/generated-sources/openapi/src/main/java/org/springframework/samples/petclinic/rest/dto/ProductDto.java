@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Product")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-30T23:29:28.124424100+08:00[Asia/Shanghai]")
 public class ProductDto {
 
   @JsonProperty("name")
@@ -32,17 +32,14 @@ public class ProductDto {
   @JsonProperty("image")
   private String image;
 
-  @JsonProperty("categoryId")
-  private Long categoryId = null;
-
   @JsonProperty("quantity")
   private Integer quantity;
 
+  @JsonProperty("ownerId")
+  private Long ownerId = null;
+
   @JsonProperty("id")
   private Long id = null;
-
-  @JsonProperty("stock")
-  private Boolean stock;
 
   public ProductDto name(String name) {
     this.name = name;
@@ -101,25 +98,6 @@ public class ProductDto {
     this.image = image;
   }
 
-  public ProductDto categoryId(Long categoryId) {
-    this.categoryId = categoryId;
-    return this;
-  }
-
-  /**
-   * Get categoryId
-   * @return categoryId
-  */
-  
-  @Schema(name = "categoryId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public Long getCategoryId() {
-    return categoryId;
-  }
-
-  public void setCategoryId(Long categoryId) {
-    this.categoryId = categoryId;
-  }
-
   public ProductDto quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
@@ -138,6 +116,25 @@ public class ProductDto {
 
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
+  }
+
+  public ProductDto ownerId(Long ownerId) {
+    this.ownerId = ownerId;
+    return this;
+  }
+
+  /**
+   * Get ownerId
+   * @return ownerId
+  */
+  @NotNull 
+  @Schema(name = "ownerId", requiredMode = Schema.RequiredMode.REQUIRED)
+  public Long getOwnerId() {
+    return ownerId;
+  }
+
+  public void setOwnerId(Long ownerId) {
+    this.ownerId = ownerId;
   }
 
   public ProductDto id(Long id) {
@@ -159,25 +156,6 @@ public class ProductDto {
     this.id = id;
   }
 
-  public ProductDto stock(Boolean stock) {
-    this.stock = stock;
-    return this;
-  }
-
-  /**
-   * Get stock
-   * @return stock
-  */
-  
-  @Schema(name = "stock", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public Boolean getStock() {
-    return stock;
-  }
-
-  public void setStock(Boolean stock) {
-    this.stock = stock;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -190,15 +168,14 @@ public class ProductDto {
     return Objects.equals(this.name, product.name) &&
         Objects.equals(this.price, product.price) &&
         Objects.equals(this.image, product.image) &&
-        Objects.equals(this.categoryId, product.categoryId) &&
         Objects.equals(this.quantity, product.quantity) &&
-        Objects.equals(this.id, product.id) &&
-        Objects.equals(this.stock, product.stock);
+        Objects.equals(this.ownerId, product.ownerId) &&
+        Objects.equals(this.id, product.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, price, image, categoryId, quantity, id, stock);
+    return Objects.hash(name, price, image, quantity, ownerId, id);
   }
 
   @Override
@@ -208,10 +185,9 @@ public class ProductDto {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
-    sb.append("    categoryId: ").append(toIndentedString(categoryId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+    sb.append("    ownerId: ").append(toIndentedString(ownerId)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    stock: ").append(toIndentedString(stock)).append("\n");
     sb.append("}");
     return sb.toString();
   }

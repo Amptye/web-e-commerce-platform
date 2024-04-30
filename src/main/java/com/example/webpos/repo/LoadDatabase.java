@@ -1,7 +1,6 @@
 package com.example.webpos.repo;
 
 import com.example.webpos.biz.PosService;
-import com.example.webpos.model.Category;
 import com.example.webpos.model.Product;
 import com.example.webpos.model.User;
 import org.slf4j.Logger;
@@ -27,13 +26,12 @@ class LoadDatabase {
     CommandLineRunner initDatabase() {
 
         return args -> {
-            Category category = new Category("drink");
-            posService.saveCategory(category);
-            posService.saveProduct(new Product("cola",3,"Cola.jpg",category,16,true));
-            posService.saveProduct(new Product("sprite",4,"Sprite.png",category,12,true));
-            posService.saveProduct(new Product("red bull",5,"Redbull.jpg",category,4,true));
-            posService.saveProduct(new Product("Milk",5,"Milk.jpg",category,1,true));
-            posService.saveUser(new User("123","10086","10087","15968774896",true,10,"$","",""));
+            User user = new User("123","10086","15968774896","");
+            posService.saveUser(user);
+            posService.saveProduct(new Product("cola",3,"Cola.jpg",16,user));
+            posService.saveProduct(new Product("sprite",4,"Sprite.png",12,user));
+            posService.saveProduct(new Product("red bull",5,"Redbull.jpg",4,user));
+            posService.saveProduct(new Product("Milk",5,"Milk.jpg",1,user));
         };
     }
 }

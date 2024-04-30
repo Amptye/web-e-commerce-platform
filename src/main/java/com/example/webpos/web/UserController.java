@@ -2,14 +2,12 @@ package com.example.webpos.web;
 
 import com.example.webpos.biz.PosService;
 import com.example.webpos.mapper.UserMapper;
-import com.example.webpos.model.Cart;
 import com.example.webpos.model.Item;
 import com.example.webpos.model.User;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.rest.api.UsersApi;
-import org.springframework.samples.petclinic.rest.dto.TaxFieldsDto;
 import org.springframework.samples.petclinic.rest.dto.UserDto;
 import org.springframework.samples.petclinic.rest.dto.UserFieldsDto;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -55,8 +53,6 @@ public class UserController implements UsersApi {
     public ResponseEntity<UserDto> addUser(UserFieldsDto userFieldsDto) {
         HttpHeaders headers = new HttpHeaders();
         User user = userMapper.toUser(userFieldsDto);
-        user.setTax(false);
-        user.setPercentage(0);
         this.posService.saveUser(user);
         UserDto userDto = userMapper.toUserDto(user);
         headers.setLocation(UriComponentsBuilder.newInstance()
@@ -82,23 +78,11 @@ public class UserController implements UsersApi {
         if(userFieldsDto.getMoney() != null) {
             currentUser.setMoney(userFieldsDto.getMoney());
         }
-        if(userFieldsDto.getAddress1() != null){
-            currentUser.setAddress1(userFieldsDto.getAddress1());
-        }
-        if(userFieldsDto.getAddress2() != null){
-            currentUser.setAddress2(userFieldsDto.getAddress2());
+        if(userFieldsDto.getAddress() != null){
+            currentUser.setAddress(userFieldsDto.getAddress());
         }
         if(userFieldsDto.getContact() != null){
             currentUser.setContact(userFieldsDto.getContact());
-        }
-        if(userFieldsDto.getFooter() != null){
-            currentUser.setFooter(userFieldsDto.getFooter());
-        }
-        if(userFieldsDto.getImage() != null){
-            currentUser.setFooter(userFieldsDto.getFooter());
-        }
-        if(userFieldsDto.getSymbol() != null){
-            currentUser.setSymbol(userFieldsDto.getSymbol());
         }
         this.posService.saveUser(currentUser);
         return new ResponseEntity<>(userMapper.toUserDto(currentUser), HttpStatus.OK);
@@ -120,28 +104,11 @@ public class UserController implements UsersApi {
         if(user == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        double total = posService.total(posService.getCart()) * (1- posService.getDiscount()) * (1+ posService.getTax());
-        if(total <= user.getMoney()) {
-            posService.checkout(posService.getCart());
-            user.subMoney(total);
-        } else {
+        if(!user.charge()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         posService.saveUser(user);
         return new ResponseEntity<>(userMapper.toUserDto(user), HttpStatus.OK);
     }
 
-    @Override
-    public ResponseEntity<UserDto> taxUpdateUser(Long userId, TaxFieldsDto taxFieldsDto) {
-        User currentUser = this.posService.findUserById(userId);
-        if (currentUser == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        currentUser.setTax(taxFieldsDto.getTax());
-        if(taxFieldsDto.getPercentage() != null){
-            currentUser.setPercentage(taxFieldsDto.getPercentage());
-        }
-        this.posService.saveUser(currentUser);
-        return new ResponseEntity<>(userMapper.toUserDto(currentUser), HttpStatus.OK);
-    }
 }

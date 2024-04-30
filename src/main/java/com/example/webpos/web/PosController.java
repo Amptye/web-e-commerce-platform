@@ -2,7 +2,6 @@ package com.example.webpos.web;
 
 import com.example.webpos.model.Product;
 import com.example.webpos.model.User;
-import com.example.webpos.repo.CartRepository;
 import com.example.webpos.repo.ItemRepository;
 import com.example.webpos.repo.ProductRepository;
 import com.example.webpos.repo.UserRepository;

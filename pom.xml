@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>webpos</artifactId>
+    <artifactId>web-e-commerce-platform</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>webpos</name>
+    <name>web-e-commerce-platform</name>
 
     <description>REST version of the Spring Petclinic sample application</description>
     <url>https://spring-petclinic.github.io/</url>

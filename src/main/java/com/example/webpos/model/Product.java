@@ -13,27 +13,26 @@ public class Product {
     private String name;
     private double price;
     private String image;
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
     private int quantity;
-    private boolean stock;
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
     public Product(){}
 
-    public Product(String name, double price, String image) {
+    public Product(String name, double price, String image, User owner) {
         this.name = name;
         this.price = price;
         this.image = image;
+        this.owner = owner;
     }
 
-    public Product(String name, double price, String image, Category category, int quantity, boolean stock) {
+    public Product(String name, double price, String image, int quantity, User owner) {
         this.name = name;
         this.price = price;
         this.image = image;
-        this.category = category;
         this.quantity = quantity;
-        this.stock = stock;
+        this.owner = owner;
     }
 
     public long getId() {
@@ -68,14 +67,6 @@ public class Product {
         this.image = image;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public int getQuantity() {
         return quantity;
     }
@@ -84,12 +75,12 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public boolean isStock() {
-        return stock;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setStock(boolean stock) {
-        this.stock = stock;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     @Override

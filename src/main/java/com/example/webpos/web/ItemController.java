@@ -2,8 +2,6 @@ package com.example.webpos.web;
 
 import com.example.webpos.biz.PosService;
 import com.example.webpos.mapper.ItemMapper;
-import com.example.webpos.model.Cart;
-import com.example.webpos.model.Item;
 import com.example.webpos.model.Item;
 import com.example.webpos.model.Product;
 import org.springframework.http.HttpHeaders;

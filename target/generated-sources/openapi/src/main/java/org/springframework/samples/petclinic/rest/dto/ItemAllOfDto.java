@@ -20,14 +20,14 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Item_allOf")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-30T23:29:28.124424100+08:00[Asia/Shanghai]")
 public class ItemAllOfDto {
 
   @JsonProperty("id")
   private Long id = null;
 
-  @JsonProperty("cartId")
-  private Long cartId = null;
+  @JsonProperty("userId")
+  private Long userId = null;
 
   public ItemAllOfDto id(Long id) {
     this.id = id;
@@ -48,23 +48,23 @@ public class ItemAllOfDto {
     this.id = id;
   }
 
-  public ItemAllOfDto cartId(Long cartId) {
-    this.cartId = cartId;
+  public ItemAllOfDto userId(Long userId) {
+    this.userId = userId;
     return this;
   }
 
   /**
-   * Get cartId
-   * @return cartId
+   * Get userId
+   * @return userId
   */
   
-  @Schema(name = "cartId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public Long getCartId() {
-    return cartId;
+  @Schema(name = "userId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  public Long getUserId() {
+    return userId;
   }
 
-  public void setCartId(Long cartId) {
-    this.cartId = cartId;
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
   @Override
@@ -77,12 +77,12 @@ public class ItemAllOfDto {
     }
     ItemAllOfDto itemAllOf = (ItemAllOfDto) o;
     return Objects.equals(this.id, itemAllOf.id) &&
-        Objects.equals(this.cartId, itemAllOf.cartId);
+        Objects.equals(this.userId, itemAllOf.userId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, cartId);
+    return Objects.hash(id, userId);
   }
 
   @Override
@@ -90,7 +90,7 @@ public class ItemAllOfDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class ItemAllOfDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    cartId: ").append(toIndentedString(cartId)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

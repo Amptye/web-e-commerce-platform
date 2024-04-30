@@ -1,12 +1,15 @@
 package com.example.webpos.mapper;
 
-import com.example.webpos.model.Cart;
+import com.example.webpos.model.Item;
+import com.example.webpos.model.Product;
 import com.example.webpos.model.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.annotation.processing.Generated;
-import org.springframework.samples.petclinic.rest.dto.TaxFieldsDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.rest.dto.ItemDto;
+import org.springframework.samples.petclinic.rest.dto.ProductDto;
 import org.springframework.samples.petclinic.rest.dto.UserDto;
 import org.springframework.samples.petclinic.rest.dto.UserFieldsDto;
 import org.springframework.stereotype.Component;
@@ -17,6 +20,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapperImpl implements UserMapper {
 
+    @Autowired
+    private ProductMapper productMapper;
+    @Autowired
+    private ItemMapper itemMapper;
+
     @Override
     public UserDto toUserDto(User user) {
         if ( user == null ) {
@@ -25,20 +33,16 @@ public class UserMapperImpl implements UserMapper {
 
         UserDto userDto = new UserDto();
 
-        userDto.setCartId( userCartId( user ) );
         userDto.setName( user.getName() );
         userDto.setEmail( user.getEmail() );
         userDto.setPass( user.getPass() );
         userDto.setMoney( user.getMoney() );
-        userDto.setAddress1( user.getAddress1() );
-        userDto.setAddress2( user.getAddress2() );
+        userDto.setAddress( user.getAddress() );
         userDto.setContact( user.getContact() );
-        userDto.setSymbol( user.getSymbol() );
-        userDto.setFooter( user.getFooter() );
         userDto.setImage( user.getImage() );
-        userDto.setTax( user.isTax() );
-        userDto.setPercentage( user.getPercentage() );
         userDto.setId( user.getId() );
+        userDto.setItems( itemMapper.toItemDtos( user.getItems() ) );
+        userDto.setProducts( productMapper.toProductDtos( user.getProducts() ) );
 
         return userDto;
     }
@@ -60,17 +64,10 @@ public class UserMapperImpl implements UserMapper {
         if ( userDto.getMoney() != null ) {
             user.setMoney( userDto.getMoney() );
         }
-        user.setAddress1( userDto.getAddress1() );
-        user.setAddress2( userDto.getAddress2() );
+        user.setItems( itemDtoListToItemList( userDto.getItems() ) );
+        user.setProducts( productDtoListToProductList( userDto.getProducts() ) );
+        user.setAddress( userDto.getAddress() );
         user.setContact( userDto.getContact() );
-        if ( userDto.getTax() != null ) {
-            user.setTax( userDto.getTax() );
-        }
-        if ( userDto.getPercentage() != null ) {
-            user.setPercentage( userDto.getPercentage() );
-        }
-        user.setSymbol( userDto.getSymbol() );
-        user.setFooter( userDto.getFooter() );
         user.setImage( userDto.getImage() );
 
         return user;
@@ -90,30 +87,9 @@ public class UserMapperImpl implements UserMapper {
         if ( userFieldsDto.getMoney() != null ) {
             user.setMoney( userFieldsDto.getMoney() );
         }
-        user.setAddress1( userFieldsDto.getAddress1() );
-        user.setAddress2( userFieldsDto.getAddress2() );
+        user.setAddress( userFieldsDto.getAddress() );
         user.setContact( userFieldsDto.getContact() );
-        user.setSymbol( userFieldsDto.getSymbol() );
-        user.setFooter( userFieldsDto.getFooter() );
         user.setImage( userFieldsDto.getImage() );
-
-        return user;
-    }
-
-    @Override
-    public User toUser(TaxFieldsDto taxFieldsDto) {
-        if ( taxFieldsDto == null ) {
-            return null;
-        }
-
-        User user = new User();
-
-        if ( taxFieldsDto.getTax() != null ) {
-            user.setTax( taxFieldsDto.getTax() );
-        }
-        if ( taxFieldsDto.getPercentage() != null ) {
-            user.setPercentage( taxFieldsDto.getPercentage() );
-        }
 
         return user;
     }
@@ -146,15 +122,29 @@ public class UserMapperImpl implements UserMapper {
         return collection;
     }
 
-    private Long userCartId(User user) {
-        if ( user == null ) {
+    protected List<Item> itemDtoListToItemList(List<ItemDto> list) {
+        if ( list == null ) {
             return null;
         }
-        Cart cart = user.getCart();
-        if ( cart == null ) {
+
+        List<Item> list1 = new ArrayList<Item>( list.size() );
+        for ( ItemDto itemDto : list ) {
+            list1.add( itemMapper.toItem( itemDto ) );
+        }
+
+        return list1;
+    }
+
+    protected List<Product> productDtoListToProductList(List<ProductDto> list) {
+        if ( list == null ) {
             return null;
         }
-        long id = cart.getId();
-        return id;
+
+        List<Product> list1 = new ArrayList<Product>( list.size() );
+        for ( ProductDto productDto : list ) {
+            list1.add( productMapper.toProduct( productDto ) );
+        }
+
+        return list1;
     }
 }

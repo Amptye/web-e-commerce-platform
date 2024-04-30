@@ -5,6 +5,10 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.samples.petclinic.rest.dto.ItemDto;
+import org.springframework.samples.petclinic.rest.dto.ProductDto;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -20,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("User")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-29T22:21:35.694973+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-04-30T23:29:28.124424100+08:00[Asia/Shanghai]")
 public class UserDto {
 
   @JsonProperty("name")
@@ -35,35 +39,25 @@ public class UserDto {
   @JsonProperty("money")
   private Double money = null;
 
-  @JsonProperty("address1")
-  private String address1;
-
-  @JsonProperty("address2")
-  private String address2;
+  @JsonProperty("address")
+  private String address;
 
   @JsonProperty("contact")
   private String contact;
 
-  @JsonProperty("symbol")
-  private String symbol;
-
-  @JsonProperty("footer")
-  private String footer;
-
   @JsonProperty("image")
   private String image;
-
-  @JsonProperty("tax")
-  private Boolean tax;
-
-  @JsonProperty("percentage")
-  private Integer percentage;
 
   @JsonProperty("id")
   private Long id = null;
 
-  @JsonProperty("cartId")
-  private Long cartId = null;
+  @JsonProperty("items")
+  @Valid
+  private List<ItemDto> items = null;
+
+  @JsonProperty("products")
+  @Valid
+  private List<ProductDto> products = null;
 
   public UserDto name(String name) {
     this.name = name;
@@ -93,7 +87,7 @@ public class UserDto {
    * The email of the user.
    * @return email
   */
-  @Size(min = 1, max = 255) 
+  @Pattern(regexp = "^\\w+@\\w+\\.\\w+$") @Size(min = 1, max = 255) 
   @Schema(name = "email", example = "abc@ef.com", description = "The email of the user.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getEmail() {
     return email;
@@ -141,42 +135,23 @@ public class UserDto {
     this.money = money;
   }
 
-  public UserDto address1(String address1) {
-    this.address1 = address1;
+  public UserDto address(String address) {
+    this.address = address;
     return this;
   }
 
   /**
-   * Get address1
-   * @return address1
+   * Get address
+   * @return address
   */
   @Pattern(regexp = "^[0-9]*$") @Size(min = 1, max = 20) 
-  @Schema(name = "address1", example = "10086", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public String getAddress1() {
-    return address1;
+  @Schema(name = "address", example = "10086", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  public String getAddress() {
+    return address;
   }
 
-  public void setAddress1(String address1) {
-    this.address1 = address1;
-  }
-
-  public UserDto address2(String address2) {
-    this.address2 = address2;
-    return this;
-  }
-
-  /**
-   * Get address2
-   * @return address2
-  */
-  @Pattern(regexp = "^[0-9]*$") @Size(min = 1, max = 20) 
-  @Schema(name = "address2", example = "10087", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public String getAddress2() {
-    return address2;
-  }
-
-  public void setAddress2(String address2) {
-    this.address2 = address2;
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   public UserDto contact(String contact) {
@@ -198,44 +173,6 @@ public class UserDto {
     this.contact = contact;
   }
 
-  public UserDto symbol(String symbol) {
-    this.symbol = symbol;
-    return this;
-  }
-
-  /**
-   * Get symbol
-   * @return symbol
-  */
-  
-  @Schema(name = "symbol", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
-  }
-
-  public UserDto footer(String footer) {
-    this.footer = footer;
-    return this;
-  }
-
-  /**
-   * Get footer
-   * @return footer
-  */
-  
-  @Schema(name = "footer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public String getFooter() {
-    return footer;
-  }
-
-  public void setFooter(String footer) {
-    this.footer = footer;
-  }
-
   public UserDto image(String image) {
     this.image = image;
     return this;
@@ -253,46 +190,6 @@ public class UserDto {
 
   public void setImage(String image) {
     this.image = image;
-  }
-
-  public UserDto tax(Boolean tax) {
-    this.tax = tax;
-    return this;
-  }
-
-  /**
-   * Get tax
-   * @return tax
-  */
-  @NotNull 
-  @Schema(name = "tax", requiredMode = Schema.RequiredMode.REQUIRED)
-  public Boolean getTax() {
-    return tax;
-  }
-
-  public void setTax(Boolean tax) {
-    this.tax = tax;
-  }
-
-  public UserDto percentage(Integer percentage) {
-    this.percentage = percentage;
-    return this;
-  }
-
-  /**
-   * Get percentage
-   * minimum: 0
-   * maximum: 100
-   * @return percentage
-  */
-  @Min(0) @Max(100) 
-  @Schema(name = "percentage", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public Integer getPercentage() {
-    return percentage;
-  }
-
-  public void setPercentage(Integer percentage) {
-    this.percentage = percentage;
   }
 
   public UserDto id(Long id) {
@@ -314,23 +211,58 @@ public class UserDto {
     this.id = id;
   }
 
-  public UserDto cartId(Long cartId) {
-    this.cartId = cartId;
+  public UserDto items(List<ItemDto> items) {
+    this.items = items;
+    return this;
+  }
+
+  public UserDto addItemsItem(ItemDto itemsItem) {
+    if (this.items == null) {
+      this.items = new ArrayList<>();
+    }
+    this.items.add(itemsItem);
     return this;
   }
 
   /**
-   * Get cartId
-   * @return cartId
+   * Get items
+   * @return items
   */
-  
-  @Schema(name = "cartId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public Long getCartId() {
-    return cartId;
+  @Valid 
+  @Schema(name = "items", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  public List<ItemDto> getItems() {
+    return items;
   }
 
-  public void setCartId(Long cartId) {
-    this.cartId = cartId;
+  public void setItems(List<ItemDto> items) {
+    this.items = items;
+  }
+
+  public UserDto products(List<ProductDto> products) {
+    this.products = products;
+    return this;
+  }
+
+  public UserDto addProductsItem(ProductDto productsItem) {
+    if (this.products == null) {
+      this.products = new ArrayList<>();
+    }
+    this.products.add(productsItem);
+    return this;
+  }
+
+  /**
+   * Get products
+   * @return products
+  */
+  @Valid 
+  @Schema(name = "products", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  public List<ProductDto> getProducts() {
+    return products;
+  }
+
+  public void setProducts(List<ProductDto> products) {
+    this.products = products;
   }
 
   @Override
@@ -346,21 +278,17 @@ public class UserDto {
         Objects.equals(this.email, user.email) &&
         Objects.equals(this.pass, user.pass) &&
         Objects.equals(this.money, user.money) &&
-        Objects.equals(this.address1, user.address1) &&
-        Objects.equals(this.address2, user.address2) &&
+        Objects.equals(this.address, user.address) &&
         Objects.equals(this.contact, user.contact) &&
-        Objects.equals(this.symbol, user.symbol) &&
-        Objects.equals(this.footer, user.footer) &&
         Objects.equals(this.image, user.image) &&
-        Objects.equals(this.tax, user.tax) &&
-        Objects.equals(this.percentage, user.percentage) &&
         Objects.equals(this.id, user.id) &&
-        Objects.equals(this.cartId, user.cartId);
+        Objects.equals(this.items, user.items) &&
+        Objects.equals(this.products, user.products);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, email, pass, money, address1, address2, contact, symbol, footer, image, tax, percentage, id, cartId);
+    return Objects.hash(name, email, pass, money, address, contact, image, id, items, products);
   }
 
   @Override
@@ -371,16 +299,12 @@ public class UserDto {
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    pass: ").append(toIndentedString(pass)).append("\n");
     sb.append("    money: ").append(toIndentedString(money)).append("\n");
-    sb.append("    address1: ").append(toIndentedString(address1)).append("\n");
-    sb.append("    address2: ").append(toIndentedString(address2)).append("\n");
+    sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    contact: ").append(toIndentedString(contact)).append("\n");
-    sb.append("    symbol: ").append(toIndentedString(symbol)).append("\n");
-    sb.append("    footer: ").append(toIndentedString(footer)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
-    sb.append("    tax: ").append(toIndentedString(tax)).append("\n");
-    sb.append("    percentage: ").append(toIndentedString(percentage)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    cartId: ").append(toIndentedString(cartId)).append("\n");
+    sb.append("    items: ").append(toIndentedString(items)).append("\n");
+    sb.append("    products: ").append(toIndentedString(products)).append("\n");
     sb.append("}");
     return sb.toString();
   }

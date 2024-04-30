@@ -29,10 +29,14 @@ User:
           pattern: '^\d{0,20}$'
         image:
           type: string
-        items:
+        items:（添加到购物车中的商品）
           type: array
           items:
             $ref: '#/Item'
+        products:（发布的商品）
+          type: array
+          items:
+            $ref: '#/Product'
     required:
         - name
 Product:
@@ -50,6 +54,9 @@ Product:
           type: integer
           format: int32
           minimum: 0
+        ownerId:
+          description: 发布该商品的用户的ID
+          type: long
     required:
         - name
 Item:（用户购物车中的商品块，每个 item 里有 quantity 个 ID 为 productId 的商品）
@@ -174,3 +181,26 @@ localhost:8080/users/{userId}/items/{itemId}/subone:
     put:
       summary: 使该 item 的 quantity 减 1。
       responses: 得到更新的 Item 类
+
+
+localhost:8080/users/{userId}/products:
+    get:
+      summary: 一个用户的所有 product
+      responses: 得到一个 Product 类的数组，表示该用户的所有 product
+    post:
+      summary: 为该用户创建一个 product
+      requestBody: 请求体：使用 json 格式发送请求，就是用 javascript 构造一个包含 Product 中 required 的属性的类然后发送（不 required 的也可以有）
+      responses: 得到创建的 Product 类
+
+
+localhost:8080/users/{userId}/products/{productId}:
+    get:
+      summary: Product 信息
+      responses: 得到一个 Product 类
+    put:
+      summary: 更新用户信息
+      requestBody: 请求体：使用 json 格式发送请求，就是用 javascript 构造一个包含 Product 中 required 的属性的类然后发送（不 required 的也可以有）
+      responses: 得到更新的 Product 类
+    delete:
+      summary: 删除该用户的该 product
+      responses: 返回被删除的 Product 类
