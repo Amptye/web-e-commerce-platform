@@ -15,13 +15,13 @@ let allCategories = [];
 let subTotal = 0;
 let orderTotal = 0;
 let currentUser;
-let currentCart;
 let holdOrder = 0;
 let paymentType = 0;
 let method = '';
 let totalVat = 0;
 let app = 'Standalone Point of Sale';
 let store = 'Store-Pos';
+let priceSymbol = '￥'
 let moment = require('moment');
 let Swal = require('sweetalert2');
 let json_api = 'http://localhost:8080/';
@@ -37,31 +37,20 @@ $.get(json_api + 'users', function (data) {
     currentUser = data[0];
     console.log(currentUser);
 });
-$.get(json_api + 'carts', function (data) {
-    currentCart = data[0];
-    console.log(currentCart);
-});
 $(document).ready(function () {
-    $.fn.addToCart = function (id, count, stock) {
+    $.fn.addToCart = function (id, count) {
 
-        if (stock == true) {
-            if (count > 0) {
-                $.get(json_api + 'products/' + id, function (data) {
-                    $(this).addProductToCart(data);
-                });
-            }
-            else {
-                Swal.fire(
-                    'Out of stock!',
-                    'This item is currently unavailable',
-                    'info'
-                );
-            }
-        }
-        else {
+        if (count > 0) {
             $.get(json_api + 'products/' + id, function (data) {
                 $(this).addProductToCart(data);
             });
+        }
+        else {
+            Swal.fire(
+                'Out of stock!',
+                'This item is currently unavailable',
+                'info'
+            );
         }
 
     };
@@ -104,7 +93,7 @@ $(document).ready(function () {
                             )
                         )
                     ),
-                    $('<td>', { text: currentUser.symbol + (getProductByItem(data).price * data.quantity).toFixed(2) }),
+                    $('<td>', { text: priceSymbol + (getProductByItem(data).price * data.quantity).toFixed(2) }),
                     $('<td>').append(
                         $('<button>', {
                             class: 'btn btn-danger btn-xs',
@@ -118,8 +107,8 @@ $(document).ready(function () {
         })
     };
 
-    if (currentUser && currentUser.symbol) {
-        $("#price_curr, #payment_curr, #change_curr").text(currentUser.symbol);
+    if (currentUser && priceSymbol) {
+        $("#price_curr, #payment_curr, #change_curr").text(priceSymbol);
     }
 
 
@@ -147,14 +136,14 @@ $(document).ready(function () {
                 product = pro;
 
                 let product_info = `<div class="col-lg-2 box ${product.category}"
-                        onclick="$(this).addToCart(${product.id}, ${product.quantity}, ${product.stock})">
+                        onclick="$(this).addToCart(${product.id}, ${product.quantity})">
                       <div class="widget-panel widget-style-2 ">
                       <div id="image"><img src="${product.image == "" ? "./public/images/default.jpg" : json_img/*img_path*/ + product.image}" id="product_img" alt=""></div>
                                   <div class="text-muted m-t-5 text-center">
                                   <div class="name" id="product_name">${product.name}</div>
 //                                  <span class="sku">${product.sku}</span>
-                                  <span class="stock">STOCK </span><span class="count">${product.stock == true ? product.quantity : 'N/A'}</span></div>
-                                  <sp class="text-success text-center"><b data-plugin="counterup">${currentUser.symbol + product.price}</b> </sp>
+                                  <span class="stock">STOCK </span><span class="count">${product.quantity}</span></div>
+                                  <sp class="text-success text-center"><b data-plugin="counterup">${priceSymbol + product.price}</b> </sp>
                       </div>
                   </div>`;
                 $('#parent').append(product_info);
@@ -193,7 +182,7 @@ $(document).ready(function () {
             total += data.quantity * getProductByItem(data).price;
         });
         total = total - $("#inputDiscount").val();
-        $('#price').text(currentUser.symbol + total.toFixed(2));
+        $('#price').text(priceSymbol + total.toFixed(2));
 
         subTotal = total;
 
@@ -212,7 +201,7 @@ $(document).ready(function () {
 
         orderTotal = grossTotal.toFixed(2);
 
-        $("#gross_price").text(currentUser.symbol + grossTotal.toFixed(2));
+        $("#gross_price").text(priceSymbol + grossTotal.toFixed(2));
         $("#payablePrice").val(grossTotal);
     };
 
@@ -232,23 +221,17 @@ $(document).ready(function () {
             return selected.id == parseInt(item.productId);
         });
 
-        if (products[0].stock == true) {
-            if (item.quantity < products[0].quantity) {
-                item.quantity += 1;
-                $(this).renderTable(cart);
-            }
-
-            else {
-                Swal.fire(
-                    'No more stock!',
-                    'You have already added all the available stock.',
-                    'info'
-                );
-            }
-        }
-        else {
+        if (item.quantity < products[0].quantity) {
             item.quantity += 1;
             $(this).renderTable(cart);
+        }
+
+        else {
+            Swal.fire(
+                'No more stock!',
+                'You have already added all the available stock.',
+                'info'
+            );
         }
 
     }
@@ -339,7 +322,7 @@ $(document).ready(function () {
         cart.forEach(item => {
             product = getProductByItem(item);
 
-            items += "<tr><td>" + product.name + "</td><td>" + item.quantity + "</td><td>" + currentUser.symbol + parseFloat(product.price).toFixed(2) + "</td></tr>";
+            items += "<tr><td>" + product.name + "</td><td>" + item.quantity + "</td><td>" + priceSymbol + parseFloat(product.price).toFixed(2) + "</td></tr>";
 
         });
 
@@ -373,12 +356,12 @@ $(document).ready(function () {
             payment = `<tr>
                   <td>Paid</td>
                   <td>:</td>
-                  <td>${currentUser.symbol + paid}</td>
+                  <td>${priceSymbol + paid}</td>
               </tr>
               <tr>
                   <td>Change</td>
                   <td>:</td>
-                  <td>${currentUser.symbol + Math.abs(change).toFixed(2)}</td>
+                  <td>${priceSymbol + Math.abs(change).toFixed(2)}</td>
               </tr>
               <tr>
                   <td>Method</td>
@@ -393,7 +376,7 @@ $(document).ready(function () {
             tax_row = `<tr>
               <td>Vat(${currentUser.percentage})% </td>
               <td>:</td>
-              <td>${currentUser.symbol}${parseFloat(totalVat).toFixed(2)}</td>
+              <td>${priceSymbol}${parseFloat(totalVat).toFixed(2)}</td>
           </tr>`;
         }
 
@@ -458,12 +441,12 @@ $(document).ready(function () {
       <tr>
           <td><b>Subtotal</b></td>
           <td>:</td>
-          <td><b>${currentUser.symbol}${subTotal.toFixed(2)}</b></td>
+          <td><b>${priceSymbol}${subTotal.toFixed(2)}</b></td>
       </tr>
       <tr>
           <td>Discount</td>
           <td>:</td>
-          <td>${discount > 0 ? currentUser.symbol + parseFloat(discount).toFixed(2) : ''}</td>
+          <td>${discount > 0 ? priceSymbol + parseFloat(discount).toFixed(2) : ''}</td>
       </tr>
 
       ${tax_row}
@@ -472,7 +455,7 @@ $(document).ready(function () {
           <td><h3>Total</h3></td>
           <td><h3>:</h3></td>
           <td>
-              <h3>${currentUser.symbol}${parseFloat(orderTotal).toFixed(2)}</h3>
+              <h3>${priceSymbol}${parseFloat(orderTotal).toFixed(2)}</h3>
           </td>
       </tr>
       ${payment == 0 ? '' : payment}
@@ -609,8 +592,8 @@ $(document).ready(function () {
       <td><img id="`+ product.id + `"></td>
       <td><img style="max-height: 50px; max-width: 50px; border: 1px solid #ddd;" src="${product.image == "" ? "./public/images/default.jpg" : json_img/*img_path*/ + product.image}" id="product_img"></td>
       <td>${product.name}</td>
-      <td>${currentUser.symbol}${product.price}</td>
-      <td>${product.stock == true ? product.quantity : 'N/A'}</td>
+      <td>${priceSymbol}${product.price}</td>
+      <td>${product.quantity}</td>
       <td>${category.length > 0 ? category[0].name : ''}</td>
       <td class="nobr"><span class="btn-group"><button onClick="$(this).editProduct(${index})" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button><button onClick="$(this).deleteProduct(${product.id})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></span></td></tr>`;
 
