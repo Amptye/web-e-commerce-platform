@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("UserFields")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-07T06:14:15.799954100+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-09T05:12:34.553859700+08:00[Asia/Shanghai]")
 public class UserFieldsDto {
 
   @JsonProperty("name")
@@ -53,8 +53,8 @@ public class UserFieldsDto {
    * The name of the user.
    * @return name
   */
-  @NotNull @Pattern(regexp = "^[a-zA-Z]*$") @Size(min = 1, max = 30) 
-  @Schema(name = "name", example = "George", description = "The name of the user.", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Pattern(regexp = "^[a-zA-Z]*$") @Size(min = 1, max = 30) 
+  @Schema(name = "name", example = "George", description = "The name of the user.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getName() {
     return name;
   }

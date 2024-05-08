@@ -4,10 +4,15 @@ const copyPlugin = require('copy-webpack-plugin');
 const { parseHTML } = require('jquery');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    'index':'./src/js/index.js',
+    'login':'./src/js/login.js',
+    'register':'/src/js/register.js',
+    'message':'./src/js/message.js',
+  },
   output: {
     globalObject: 'this',
-    filename: 'index.js',
+    filename: 'js/[name].js',
     publicPath: './',
     path: path.resolve(__dirname, 'dist')
   },
@@ -21,6 +26,18 @@ module.exports = {
       patterns: [
         {
           from: path.resolve(__dirname, 'src', 'index.html'),
+          to: path.resolve(__dirname, 'dist')
+        },
+        {
+          from: path.resolve(__dirname, 'src', 'login.html'),
+          to: path.resolve(__dirname, 'dist')
+        },
+        {
+          from: path.resolve(__dirname, 'src', 'register.html'),
+          to: path.resolve(__dirname, 'dist')
+        },
+        {
+          from: path.resolve(__dirname, 'src', 'message.html'),
           to: path.resolve(__dirname, 'dist')
         },
         {

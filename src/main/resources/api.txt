@@ -59,6 +59,7 @@ Product:
           type: long
     required:
         - name
+        - ownerId
 Item:（用户购物车中的商品块，每个 item 里有 quantity 个 ID 为 productId 的商品）
     properties:
       id:
@@ -88,6 +89,13 @@ localhost:8080/users:
       summary: 创建一个用户
       requestBody: 请求体：使用 json 格式发送请求，就是用 javascript 构造一个包含 User 中 required 的属性的类然后发送（不 required 的也可以有）
       responses: 得到创建的 User 类
+
+
+localhost:8080/users/login:
+    post:
+      summary: 用户登录
+      requestBody: 请求体：使用 json 格式发送请求，包括用户的 id 和 pass（密码）
+      responses: 得到登录的 User 类
 
 
 localhost:8080/users/{userId}:

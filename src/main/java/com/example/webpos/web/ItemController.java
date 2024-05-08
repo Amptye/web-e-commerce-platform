@@ -106,4 +106,6 @@ public class ItemController implements ItemsApi {
         this.posService.saveItem(currentItem);
         return new ResponseEntity<>(itemMapper.toItemDto(currentItem), HttpStatus.OK);
     }
+
+
 }

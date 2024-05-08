@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-07T06:14:15.799954100+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-09T05:12:34.553859700+08:00[Asia/Shanghai]")
 @Validated
 @Tag(name = "products", description = "the products API")
 public interface ProductsApi {
@@ -104,31 +104,33 @@ public interface ProductsApi {
 
 
     /**
-     * DELETE /products/{productId} : Delete an product by ID
+     * DELETE /products/{productId} : Delete a product by ID
      * Returns the product or a 404 error.
      *
      * @param productId The ID of the product. (required)
      * @return Product details found and returned. (status code 200)
+     *         or Delete Ok (status code 204)
      *         or Not modified. (status code 304)
      *         or Bad request. (status code 400)
-     *         or Owner  not found. (status code 404)
+     *         or Porduct not found. (status code 404)
      *         or Server error. (status code 500)
      *         or unexpected error (status code 200)
      */
     @Operation(
         operationId = "deleteProduct",
-        summary = "Delete an product by ID",
+        summary = "Delete a product by ID",
         description = "Returns the product or a 404 error.",
         tags = { "product" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Product details found and returned.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))
             }),
+            @ApiResponse(responseCode = "204", description = "Delete Ok"),
             @ApiResponse(responseCode = "304", description = "Not modified."),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
-            @ApiResponse(responseCode = "404", description = "Owner  not found.", content = {
+            @ApiResponse(responseCode = "404", description = "Porduct not found.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
             @ApiResponse(responseCode = "500", description = "Server error.", content = {

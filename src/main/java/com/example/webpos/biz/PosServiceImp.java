@@ -47,6 +47,14 @@ public class PosServiceImp implements PosService {
     @Override
     //@Transactional
     public void deleteProduct(Product product) {
+        List<Item> items = (List<Item>) findAllItems();
+        for (Item item : items){
+            if(item.getProduct().equals(product)){
+                this.deleteItem(item);
+            }
+        }
+        User user = product.getOwner();
+        user.deleteProduct(product);
         productRepository.delete(product);
     }
     @Override
@@ -68,6 +76,8 @@ public class PosServiceImp implements PosService {
     @Override
     //@Transactional
     public void deleteItem(Item item) {
+        User user = item.getUser();
+        user.deleteItem(item);
         itemRepository.delete(item);
     }
     @Override
@@ -91,6 +101,10 @@ public class PosServiceImp implements PosService {
     //@Transactional(readOnly = true)
     public User findUserById(long id) {
         return userRepository.findById(id).orElse(null);
+    }
+    @Override
+    public User findUserByUid(long uid){
+        return findUserById(User.getIdByUid(uid));
     }
     @Override
     //@Transactional

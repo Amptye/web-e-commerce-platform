@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-07T06:14:15.799954100+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-09T05:12:34.553859700+08:00[Asia/Shanghai]")
 @Validated
 @Tag(name = "users", description = "the users API")
 public interface UsersApi {
@@ -107,10 +107,10 @@ public interface UsersApi {
 
 
     /**
-     * POST /users/{userId}/products : Adds a product to a user
+     * POST /users/{userId}/products : Adds a product to a owner
      * Records the details of a new product.
      *
-     * @param userId The ID of the user. (required)
+     * @param userId The ID of the owner. (required)
      * @param productFieldsDto The details of the new product. (required)
      * @return The product was sucessfully added. (status code 201)
      *         or Bad request. (status code 400)
@@ -120,7 +120,7 @@ public interface UsersApi {
      */
     @Operation(
         operationId = "addProductToOwner",
-        summary = "Adds a product to a user",
+        summary = "Adds a product to a owner",
         description = "Records the details of a new product.",
         tags = { "product" },
         responses = {
@@ -148,7 +148,7 @@ public interface UsersApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<ProductDto> addProductToOwner(
-        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "userId", description = "The ID of the owner.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
         @Parameter(name = "ProductFieldsDto", description = "The details of the new product.", required = true) @Valid @RequestBody ProductFieldsDto productFieldsDto
     ) {
         getRequest().ifPresent(request -> {
@@ -380,32 +380,34 @@ public interface UsersApi {
 
 
     /**
-     * DELETE /users/{userId}/products/{productId} : Delete an product by ID in a User
+     * DELETE /users/{userId}/products/{productId} : Delete a product by ID in a Owner
      * Returns the product or a 404 error.
      *
      * @param userId The ID of the user. (required)
      * @param productId The ID of the product. (required)
      * @return Item details found and returned. (status code 200)
+     *         or Delete Ok (status code 204)
      *         or Not modified. (status code 304)
      *         or Bad request. (status code 400)
-     *         or Owner  not found. (status code 404)
+     *         or Owner not found. (status code 404)
      *         or Server error. (status code 500)
      *         or unexpected error (status code 200)
      */
     @Operation(
         operationId = "deleteOwnersProduct",
-        summary = "Delete an product by ID in a User",
+        summary = "Delete a product by ID in a Owner",
         description = "Returns the product or a 404 error.",
         tags = { "product" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Item details found and returned.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))
             }),
+            @ApiResponse(responseCode = "204", description = "Delete Ok"),
             @ApiResponse(responseCode = "304", description = "Not modified."),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
-            @ApiResponse(responseCode = "404", description = "Owner  not found.", content = {
+            @ApiResponse(responseCode = "404", description = "Owner not found.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
             @ApiResponse(responseCode = "500", description = "Server error.", content = {
@@ -440,31 +442,33 @@ public interface UsersApi {
 
 
     /**
-     * DELETE /users/{userId} : Delete an user by ID
+     * DELETE /users/{userId} : Delete a user by ID
      * Returns the user or a 404 error.
      *
      * @param userId The ID of the user. (required)
      * @return User details found and returned. (status code 200)
+     *         or Delete Ok (status code 204)
      *         or Not modified. (status code 304)
      *         or Bad request. (status code 400)
-     *         or Owner  not found. (status code 404)
+     *         or User not found. (status code 404)
      *         or Server error. (status code 500)
      *         or unexpected error (status code 200)
      */
     @Operation(
         operationId = "deleteUser",
-        summary = "Delete an user by ID",
+        summary = "Delete a user by ID",
         description = "Returns the user or a 404 error.",
         tags = { "user" },
         responses = {
             @ApiResponse(responseCode = "200", description = "User details found and returned.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
             }),
+            @ApiResponse(responseCode = "204", description = "Delete Ok"),
             @ApiResponse(responseCode = "304", description = "Not modified."),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
-            @ApiResponse(responseCode = "404", description = "Owner  not found.", content = {
+            @ApiResponse(responseCode = "404", description = "User not found.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
             @ApiResponse(responseCode = "500", description = "Server error.", content = {
@@ -504,9 +508,10 @@ public interface UsersApi {
      * @param userId The ID of the user. (required)
      * @param itemId The ID of the item. (required)
      * @return Item details found and returned. (status code 200)
+     *         or Delete Ok (status code 204)
      *         or Not modified. (status code 304)
      *         or Bad request. (status code 400)
-     *         or Owner  not found. (status code 404)
+     *         or User not found. (status code 404)
      *         or Server error. (status code 500)
      *         or unexpected error (status code 200)
      */
@@ -519,11 +524,12 @@ public interface UsersApi {
             @ApiResponse(responseCode = "200", description = "Item details found and returned.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ItemDto.class))
             }),
+            @ApiResponse(responseCode = "204", description = "Delete Ok"),
             @ApiResponse(responseCode = "304", description = "Not modified."),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
-            @ApiResponse(responseCode = "404", description = "Owner  not found.", content = {
+            @ApiResponse(responseCode = "404", description = "User not found.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
             @ApiResponse(responseCode = "500", description = "Server error.", content = {
@@ -678,6 +684,48 @@ public interface UsersApi {
 
 
     /**
+     * GET /users/{userId}/products : List all products of a owner
+     *
+     * @param userId The ID of the owner. (required)
+     * @return A paged array of products (status code 200)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "listOwnersProducts",
+        summary = "List all products of a owner",
+        tags = { "products" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "A paged array of products", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProductDto.class)))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/users/{userId}/products",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<List<ProductDto>> listOwnersProducts(
+        @Parameter(name = "userId", description = "The ID of the owner.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "[ null, null ]";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
      * GET /users : List all users
      *
      * @return A paged array of users (status code 200)
@@ -761,19 +809,33 @@ public interface UsersApi {
 
 
     /**
-     * GET /users/{userId}/products : List all products of a user
+     * POST /users/login : Login a user
+     * Login a user.
      *
-     * @param userId The ID of the user. (required)
-     * @return A paged array of products (status code 200)
+     * @param userDto The user (required)
+     * @return Expected response to a valid request (status code 200)
+     *         or Uid cannot be empty (status code 400)
+     *         or Invalid uid or password (status code 401)
+     *         or Invalid username (status code 404)
      *         or unexpected error (status code 200)
      */
     @Operation(
-        operationId = "listUsersProducts",
-        summary = "List all products of a user",
-        tags = { "products" },
+        operationId = "loginUser",
+        summary = "Login a user",
+        description = "Login a user.",
+        tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "A paged array of products", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProductDto.class)))
+            @ApiResponse(responseCode = "200", description = "Expected response to a valid request", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Uid cannot be empty", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "Invalid uid or password", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Invalid username", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
             @ApiResponse(responseCode = "default", description = "unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
@@ -781,17 +843,18 @@ public interface UsersApi {
         }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/users/{userId}/products",
-        produces = { "application/json" }
+        method = RequestMethod.POST,
+        value = "/users/login",
+        produces = { "application/json" },
+        consumes = { "application/json" }
     )
-    default ResponseEntity<List<ProductDto>> listUsersProducts(
-        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
+    default ResponseEntity<UserDto> loginUser(
+        @Parameter(name = "UserDto", description = "The user", required = true) @Valid @RequestBody UserDto userDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ null, null ]";
+                    String exampleString = "null";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

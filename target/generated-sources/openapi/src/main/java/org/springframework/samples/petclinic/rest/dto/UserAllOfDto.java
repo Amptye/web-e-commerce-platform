@@ -24,11 +24,14 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("User_allOf")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-07T06:14:15.799954100+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-09T05:12:34.553859700+08:00[Asia/Shanghai]")
 public class UserAllOfDto {
 
   @JsonProperty("id")
   private Long id = null;
+
+  @JsonProperty("uid")
+  private Long uid = null;
 
   @JsonProperty("items")
   @Valid
@@ -47,14 +50,33 @@ public class UserAllOfDto {
    * Get id
    * @return id
   */
-  @NotNull 
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Long getId() {
     return id;
   }
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public UserAllOfDto uid(Long uid) {
+    this.uid = uid;
+    return this;
+  }
+
+  /**
+   * Get uid
+   * @return uid
+  */
+  @NotNull 
+  @Schema(name = "uid", requiredMode = Schema.RequiredMode.REQUIRED)
+  public Long getUid() {
+    return uid;
+  }
+
+  public void setUid(Long uid) {
+    this.uid = uid;
   }
 
   public UserAllOfDto items(List<ItemDto> items) {
@@ -121,13 +143,14 @@ public class UserAllOfDto {
     }
     UserAllOfDto userAllOf = (UserAllOfDto) o;
     return Objects.equals(this.id, userAllOf.id) &&
+        Objects.equals(this.uid, userAllOf.uid) &&
         Objects.equals(this.items, userAllOf.items) &&
         Objects.equals(this.products, userAllOf.products);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, items, products);
+    return Objects.hash(id, uid, items, products);
   }
 
   @Override
@@ -135,6 +158,7 @@ public class UserAllOfDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class UserAllOfDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    uid: ").append(toIndentedString(uid)).append("\n");
     sb.append("    items: ").append(toIndentedString(items)).append("\n");
     sb.append("    products: ").append(toIndentedString(products)).append("\n");
     sb.append("}");

@@ -12,12 +12,20 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User {
+    static final long UID_BASE = 1_999_999;
+    static public long getUidById(long id){
+        return id + UID_BASE;
+    }
+    static public long getIdByUid(long uid){
+        return uid - UID_BASE;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    private long uid;
 
-    @NotBlank(message = "Name is mandatory")
+    //@NotBlank(message = "Name is mandatory")
     private String name;
 
     //@NotBlank(message = "Email is mandatory")
@@ -60,6 +68,20 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+        this.uid = id + UID_BASE;
+    }
+
+    public long getUid() {
+        this.setUid();
+        return uid;
+    }
+
+    public void setUid() {
+        this.uid = id + UID_BASE;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
     }
 
     public String getName() {
@@ -152,6 +174,14 @@ public class User {
 
     public void clearItems(){
         this.items.clear();
+    }
+
+    public boolean deleteItem(Item item){
+        return items.remove(item);
+    }
+
+    public boolean deleteProduct(Product product){
+        return products.remove(product);
     }
 
     public boolean charge(){

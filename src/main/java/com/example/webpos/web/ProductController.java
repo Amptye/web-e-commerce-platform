@@ -135,4 +135,5 @@ public class ProductController implements ProductsApi {
         this.posService.saveProduct(currentProduct);
         return new ResponseEntity<>(productMapper.toProductDto(currentProduct), HttpStatus.OK);
     }
+
 }

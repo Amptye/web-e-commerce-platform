@@ -21,6 +21,7 @@ public interface PosService {
     public void saveItem(Item item);
     public Collection<User> findAllUsers();
     public User findUserById(long id);
+    public User findUserByUid(long uid);
     public void deleteUser(User user);
     public void saveUser(User user);
     public List<User> findUsersByName(String Name);

@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("User")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-07T06:14:15.799954100+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-09T05:12:34.553859700+08:00[Asia/Shanghai]")
 public class UserDto {
 
   @JsonProperty("name")
@@ -51,6 +51,9 @@ public class UserDto {
   @JsonProperty("id")
   private Long id = null;
 
+  @JsonProperty("uid")
+  private Long uid = null;
+
   @JsonProperty("items")
   @Valid
   private List<ItemDto> items = null;
@@ -68,8 +71,8 @@ public class UserDto {
    * The name of the user.
    * @return name
   */
-  @NotNull @Pattern(regexp = "^[a-zA-Z]*$") @Size(min = 1, max = 30) 
-  @Schema(name = "name", example = "George", description = "The name of the user.", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Pattern(regexp = "^[a-zA-Z]*$") @Size(min = 1, max = 30) 
+  @Schema(name = "name", example = "George", description = "The name of the user.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getName() {
     return name;
   }
@@ -201,14 +204,33 @@ public class UserDto {
    * Get id
    * @return id
   */
-  @NotNull 
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public Long getId() {
     return id;
   }
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public UserDto uid(Long uid) {
+    this.uid = uid;
+    return this;
+  }
+
+  /**
+   * Get uid
+   * @return uid
+  */
+  @NotNull 
+  @Schema(name = "uid", requiredMode = Schema.RequiredMode.REQUIRED)
+  public Long getUid() {
+    return uid;
+  }
+
+  public void setUid(Long uid) {
+    this.uid = uid;
   }
 
   public UserDto items(List<ItemDto> items) {
@@ -282,13 +304,14 @@ public class UserDto {
         Objects.equals(this.contact, user.contact) &&
         Objects.equals(this.image, user.image) &&
         Objects.equals(this.id, user.id) &&
+        Objects.equals(this.uid, user.uid) &&
         Objects.equals(this.items, user.items) &&
         Objects.equals(this.products, user.products);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, email, pass, money, address, contact, image, id, items, products);
+    return Objects.hash(name, email, pass, money, address, contact, image, id, uid, items, products);
   }
 
   @Override
@@ -303,6 +326,7 @@ public class UserDto {
     sb.append("    contact: ").append(toIndentedString(contact)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    uid: ").append(toIndentedString(uid)).append("\n");
     sb.append("    items: ").append(toIndentedString(items)).append("\n");
     sb.append("    products: ").append(toIndentedString(products)).append("\n");
     sb.append("}");

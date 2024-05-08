@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Point Of Sale</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/message.js"></script>
+    <link href="public/stylesheets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="public/stylesheets/css/core.css" rel="stylesheet" type="text/css" />
+    <link href="public/stylesheets/css/components.css" rel="stylesheet" type="text/css" />
+    <link href="public/stylesheets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="public/stylesheets/css/responsive.css" rel="stylesheet" type="text/css" />
+    <link href="public/stylesheets/plugins/chosen/chosen.min.css" rel="stylesheet" type="text/css" />
+    <link href="public/stylesheets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />
+    <link href="public/stylesheets/plugins/dataTables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="public/stylesheets/plugins/dataTables/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="public/stylesheets/css/pages.css" rel="stylesheet" type="text/css" />
+    <style>
+        .center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100vw; /* 设置宽度以使内容水平居中 */
+            height: 100vh; /* 设置高度以使内容垂直居中 */
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 在水平方向上居中 */
+            align-items: center; /* 在垂直方向上居中 */
+        }
+        .form-group {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            display: inline-block;
+            width: 80px; /* 设置 label 的固定宽度 */
+            text-align: right; /* 文本右对齐 */
+            margin-right: 10px;
+            min-width: 60px; /* 设置 label 最小宽度 */
+        }
+        .form-group input {
+            flex: 1; /* 让 input 充满剩余的空间 */
+        }
+        .box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 10px;
+            border: 5px solid gray;
+            margin: 0px;
+            border-radius: 20px;
+        }
+    </style>
+    <!-- custom style -->
+</head>
+    <body>
+        <div class="center">
+            <div class="box">
+
+            </div>
+            <div class="box">
+                <b>Top Up?</b>
+                <form class="form-container">
+<!--                    <input type="hidden" name="id" th:value="${now_user.id}">-->
+                    <label for="money">Money</label>
+                    <input type="text" id="money" name="money" placeholder="Money">
+                    <input type="submit" value="Top up">
+                </form>
+            </div>
+            <div class="box">
+                <b>Change Message?</b>
+                <form class="form-container" th:action="@{/change-name}" method="post">
+                    <input type="hidden" name="id" th:value="${now_user.id}">
+                    <label for="name">New Name</label>
+                    <input type="text" id="name" name="new_name" placeholder="Name">
+                    <!--        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
+                    <input type="submit" value="Change">
+                </form>
+                <form class="form-container" th:action="@{/change-email}" method="post">
+                    <input type="hidden" name="id" th:value="${now_user.id}">
+                    <label for="name">New Email</label>
+                    <input type="text" id="email" name="new_email" placeholder="Email">
+                    <!--        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
+                    <input type="submit" value="Change">
+                </form>
+                <form class="form-container" th:action="@{/change-password}" method="post">
+                    <input type="hidden" name="id" th:value="${now_user.id}">
+                    <label for="name">Old Password</label>
+                    <input type="text" id="old_pass" name="old_pass" placeholder="Old Password">
+                    <!--        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
+                    <label for="name">New Password</label>
+                    <input type="text" id="new_pass" name="new_pass" placeholder="New Password">
+                    <!--        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
+                    <input type="submit" value="Change">
+                </form>
+            </div>
+        </div>
+        <script src="public/stylesheets/plugins/bootstrap/bootstrap.min.js"></script>
+        <script src="public/stylesheets/plugins/jquery-ui/jquery.form.min.js"></script>
+        <script src="public/stylesheets/plugins/daterangepicker/daterangepicker.min.js"></script>
+        <script src="public/stylesheets/plugins/dataTables/jquery.dataTables.min.js"></script>
+        <script src="public/stylesheets/plugins/dataTables/jquery.dataTables.bootstrap.js"></script>
+        <script src="public/stylesheets/plugins/dataTables/dataTables.buttons.min.js"></script>
+        <script src="public/stylesheets/plugins/dataTables/buttons.html5.min.js"></script>
+        <script src="public/stylesheets/plugins/dataTables/pdfmake.min.js"></script>
+        <script src="public/stylesheets/plugins/dataTables/vfs_fonts.js"></script>
+        <script>
+        </script>
+    </body>
+</html>

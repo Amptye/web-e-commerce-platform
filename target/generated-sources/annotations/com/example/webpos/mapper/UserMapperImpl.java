@@ -41,6 +41,7 @@ public class UserMapperImpl implements UserMapper {
         userDto.setContact( user.getContact() );
         userDto.setImage( user.getImage() );
         userDto.setId( user.getId() );
+        userDto.setUid( user.getUid() );
         userDto.setItems( itemMapper.toItemDtos( user.getItems() ) );
         userDto.setProducts( productMapper.toProductDtos( user.getProducts() ) );
 
@@ -57,6 +58,9 @@ public class UserMapperImpl implements UserMapper {
 
         if ( userDto.getId() != null ) {
             user.setId( userDto.getId() );
+        }
+        if ( userDto.getUid() != null ) {
+            user.setUid( userDto.getUid() );
         }
         user.setName( userDto.getName() );
         user.setEmail( userDto.getEmail() );

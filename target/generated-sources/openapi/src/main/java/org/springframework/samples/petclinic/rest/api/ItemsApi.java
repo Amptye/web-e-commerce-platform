@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-07T06:14:15.799954100+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-09T05:12:34.553859700+08:00[Asia/Shanghai]")
 @Validated
 @Tag(name = "items", description = "the items API")
 public interface ItemsApi {
@@ -163,9 +163,10 @@ public interface ItemsApi {
      *
      * @param itemId The ID of the item. (required)
      * @return Item details found and returned. (status code 200)
+     *         or Delete Ok (status code 204)
      *         or Not modified. (status code 304)
      *         or Bad request. (status code 400)
-     *         or Owner  not found. (status code 404)
+     *         or Item not found. (status code 404)
      *         or Server error. (status code 500)
      *         or unexpected error (status code 200)
      */
@@ -178,11 +179,12 @@ public interface ItemsApi {
             @ApiResponse(responseCode = "200", description = "Item details found and returned.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ItemDto.class))
             }),
+            @ApiResponse(responseCode = "204", description = "Delete Ok"),
             @ApiResponse(responseCode = "304", description = "Not modified."),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
-            @ApiResponse(responseCode = "404", description = "Owner  not found.", content = {
+            @ApiResponse(responseCode = "404", description = "Item not found.", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
             }),
             @ApiResponse(responseCode = "500", description = "Server error.", content = {

@@ -80,6 +80,51 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /users/login:
+    post:
+      tags:
+        - user
+      operationId: loginUser
+      summary: Login a user
+      description: Login a user.
+      requestBody:
+        description: The user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          description: Uid cannot be empty
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Invalid uid or password
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Invalid username
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /users/{userId}:
     get:
       summary: Info for a specific user
@@ -173,7 +218,7 @@ paths:
       tags:
         - user
       operationId: deleteUser
-      summary: Delete an user by ID
+      summary: Delete a user by ID
       description: Returns the user or a 404 error.
       parameters:
         - name: userId
@@ -194,6 +239,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        204:
+          description: Delete Ok
         304:
           description: Not modified.
           headers:
@@ -208,7 +255,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         404:
-          description: Owner  not found.
+          description: User not found.
           content:
             application/json:
               schema:
@@ -493,7 +540,7 @@ paths:
       tags:
         - product
       operationId: deleteProduct
-      summary: Delete an product by ID
+      summary: Delete a product by ID
       description: Returns the product or a 404 error.
       parameters:
         - name: productId
@@ -514,6 +561,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
+        204:
+          description: Delete Ok
         304:
           description: Not modified.
           headers:
@@ -528,7 +577,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         404:
-          description: Owner  not found.
+          description: Porduct not found.
           content:
             application/json:
               schema:
@@ -786,6 +835,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Item'
+        204:
+          description: Delete Ok
         304:
           description: Not modified.
           headers:
@@ -800,7 +851,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         404:
-          description: Owner  not found.
+          description: Item not found.
           content:
             application/json:
               schema:
@@ -1148,6 +1199,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Item'
+        204:
+          description: Delete Ok
         304:
           description: Not modified.
           headers:
@@ -1162,7 +1215,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         404:
-          description: Owner  not found.
+          description: User not found.
           content:
             application/json:
               schema:
@@ -1372,14 +1425,14 @@ paths:
                 $ref: "#/components/schemas/Error"
   /users/{userId}/products:
     get:
-      summary: List all products of a user
-      operationId: listUsersProducts
+      summary: List all products of a owner
+      operationId: listOwnersProducts
       tags:
         - products
       parameters:
         - name: userId
           in: path
-          description: The ID of the user.
+          description: The ID of the owner.
           required: true
           schema:
             type: long
@@ -1400,12 +1453,12 @@ paths:
       tags:
         - product
       operationId: addProductToOwner
-      summary: Adds a product to a user
+      summary: Adds a product to a owner
       description: Records the details of a new product.
       parameters:
         - name: userId
           in: path
-          description: The ID of the user.
+          description: The ID of the owner.
           required: true
           schema:
             type: long
@@ -1514,7 +1567,7 @@ paths:
       tags:
         - product
       operationId: deleteOwnersProduct
-      summary: Delete an product by ID in a User
+      summary: Delete a product by ID in a Owner
       description: Returns the product or a 404 error.
       parameters:
         - name: userId
@@ -1541,6 +1594,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
+        204:
+          description: Delete Ok
         304:
           description: Not modified.
           headers:
@@ -1555,7 +1610,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         404:
-          description: Owner  not found.
+          description: Owner not found.
           content:
             application/json:
               schema:
@@ -1686,8 +1741,6 @@ components:
           pattern: '^\d{0,20}$'
         image:
           type: string
-      required:
-        - name
     User:
       title: User
       allOf:
@@ -1695,6 +1748,8 @@ components:
         - type: object
           properties:
             id:
+              type: long
+            uid:
               type: long
             items:
               type: array
@@ -1705,7 +1760,7 @@ components:
               items:
                 $ref: '#/components/schemas/Product'
           required:
-            - id
+            - uid
     ProductFields:
       type: object
       properties:
