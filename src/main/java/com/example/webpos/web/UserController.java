@@ -31,6 +31,7 @@ public class UserController implements UsersApi {
     private final UserMapper userMapper;
     private final ItemMapper itemMapper;
     private final ProductMapper productMapper;
+    private User currentUser = null;
 
     public UserController(PosService posService, UserMapper userMapper,
                           ItemMapper itemMapper, ProductMapper productMapper) {
@@ -38,6 +39,13 @@ public class UserController implements UsersApi {
         this.userMapper = userMapper;
         this.itemMapper = itemMapper;
         this.productMapper = productMapper;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
     @Override
@@ -50,8 +58,8 @@ public class UserController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<UserDto> showUserById(Long userId) {
-        User user = this.posService.findUserById(userId);
+    public ResponseEntity<UserDto> showUserByUid(Long userId) {
+        User user = this.posService.findUserByUid(userId);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -74,35 +82,35 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<UserDto> updateUser(Long userId, UserFieldsDto userFieldsDto) {
-        User currentUser = this.posService.findUserById(userId);
-        if (currentUser == null) {
+        User user = this.posService.findUserByUid(userId);
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         if(userFieldsDto.getName() != null) {
-            currentUser.setName(userFieldsDto.getName());
+            user.setName(userFieldsDto.getName());
         }
         if(userFieldsDto.getPass() != null) {
-            currentUser.setPass(userFieldsDto.getPass());
+            user.setPass(userFieldsDto.getPass());
         }
         if(userFieldsDto.getEmail() != null) {
-            currentUser.setEmail(userFieldsDto.getEmail());
+            user.setEmail(userFieldsDto.getEmail());
         }
         if(userFieldsDto.getMoney() != null) {
-            currentUser.setMoney(userFieldsDto.getMoney());
+            user.setMoney(userFieldsDto.getMoney());
         }
         if(userFieldsDto.getAddress() != null){
-            currentUser.setAddress(userFieldsDto.getAddress());
+            user.setAddress(userFieldsDto.getAddress());
         }
         if(userFieldsDto.getContact() != null){
-            currentUser.setContact(userFieldsDto.getContact());
+            user.setContact(userFieldsDto.getContact());
         }
-        this.posService.saveUser(currentUser);
-        return new ResponseEntity<>(userMapper.toUserDto(currentUser), HttpStatus.OK);
+        this.posService.saveUser(user);
+        return new ResponseEntity<>(userMapper.toUserDto(user), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<UserDto> deleteUser(Long userId) {
-        User user = this.posService.findUserById(userId);
+        User user = this.posService.findUserByUid(userId);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -115,26 +123,27 @@ public class UserController implements UsersApi {
         if(userDto.getUid() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        User currentUser = posService.findUserByUid(userDto.getUid());
-        if (currentUser == null) {
+        User user = posService.findUserByUid(userDto.getUid());
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         boolean login = false;
         if(userDto.getPass() != null) {
-            login = userDto.getPass().equals(currentUser.getPass());
+            login = userDto.getPass().equals(user.getPass());
         } else {
-            login = (currentUser.getPass() == null);
+            login = (user.getPass() == null);
         }
         if(login) {
-            return new ResponseEntity<>(userMapper.toUserDto(currentUser), HttpStatus.OK);
+            this.currentUser = user;
+            return new ResponseEntity<>(userMapper.toUserDto(user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
     @Override
-    public ResponseEntity<UserDto> chargeUserById(Long userId) {
-        User user = this.posService.findUserById(userId);
+    public ResponseEntity<UserDto> chargeUserByUid(Long userId) {
+        User user = this.posService.findUserByUid(userId);
         if(user == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -148,7 +157,7 @@ public class UserController implements UsersApi {
     @Override
     public ResponseEntity<ItemDto> addItemToUser(Long userId, ItemFieldsDto itemFieldsDto) {
         HttpHeaders headers = new HttpHeaders();
-        User user = posService.findUserById(userId);
+        User user = posService.findUserByUid(userId);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -171,7 +180,7 @@ public class UserController implements UsersApi {
     @Override
     public ResponseEntity<ProductDto> addProductToOwner(Long userId, ProductFieldsDto productFieldsDto) {
         HttpHeaders headers = new HttpHeaders();
-        User user = posService.findUserById(userId);
+        User user = posService.findUserByUid(userId);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -193,8 +202,8 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<ItemDto> addProductToUser(Long userId, Long productId) {
-        User currentUser = this.posService.findUserById(userId);
-        if (currentUser == null) {
+        User user = this.posService.findUserByUid(userId);
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Product product = this.posService.findProductById(productId);
@@ -202,16 +211,16 @@ public class UserController implements UsersApi {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Item old_item = null;
-        for(Item item : currentUser.getItems()){
+        for(Item item : user.getItems()){
             if(item.getProduct().getId() == productId){
                 old_item = item;
                 break;
             }
         }
         if(old_item == null){
-            old_item = new Item(currentUser, product, 1);
+            old_item = new Item(user, product, 1);
             this.posService.saveItem(old_item);
-            currentUser.addItem(old_item);
+            user.addItem(old_item);
             this.posService.saveItem(old_item);
         } else {
             old_item.setQuantity(old_item.getQuantity()+1);
@@ -222,8 +231,8 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<ItemDto> addUsersItemById(Long userId, Long itemId) {
-        User currentUser = this.posService.findUserById(userId);
-        if (currentUser == null) {
+        User user = this.posService.findUserByUid(userId);
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Item currentItem = this.posService.findItemById(itemId);
@@ -237,7 +246,7 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<ProductDto> deleteOwnersProduct(Long userId, Long productId) {
-        User user = this.posService.findUserById(userId);
+        User user = this.posService.findUserByUid(userId);
         Product product = this.posService.findProductById(productId);
         if (user == null || product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -253,7 +262,7 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<ItemDto> deleteUsersItem(Long userId, Long itemId) {
-        User user = this.posService.findUserById(userId);
+        User user = this.posService.findUserByUid(userId);
         Item item = this.posService.findItemById(itemId);
         if (user == null || item == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -269,7 +278,7 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<ProductDto> getOwnersProduct(Long userId, Long productId) {
-        User user = this.posService.findUserById(userId);
+        User user = this.posService.findUserByUid(userId);
         Product product = this.posService.findProductById(productId);
         if (user == null || product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -284,7 +293,7 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<ItemDto> getUsersItem(Long userId, Long itemId) {
-        User user = this.posService.findUserById(userId);
+        User user = this.posService.findUserByUid(userId);
         Item item = this.posService.findItemById(itemId);
         if (user == null || item == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -299,7 +308,7 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<List<ItemDto>> listUsersItems(Long userId) {
-        User user = this.posService.findUserById(userId);
+        User user = this.posService.findUserByUid(userId);
         if (user == null || user.getItems().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
@@ -310,7 +319,7 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<List<ProductDto>> listOwnersProducts(Long userId) {
-        User user = this.posService.findUserById(userId);
+        User user = this.posService.findUserByUid(userId);
         if (user == null || user.getProducts().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
@@ -321,8 +330,8 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<ItemDto> subUsersItemById(Long userId, Long itemId) {
-        User currentUser = this.posService.findUserById(userId);
-        if (currentUser == null) {
+        User user = this.posService.findUserByUid(userId);
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Item currentItem = this.posService.findItemById(itemId);
@@ -336,7 +345,7 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<ProductDto> updateOwnersProduct(Long userId, Long productId, ProductFieldsDto productFieldsDto) {
-        User user = this.posService.findUserById(userId);
+        User user = this.posService.findUserByUid(userId);
         Product product = this.posService.findProductById(productId);
         if (user == null || product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -362,7 +371,7 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<ItemDto> updateUsersItem(Long userId, Long itemId, ItemFieldsDto itemFieldsDto) {
-        User user = this.posService.findUserById(userId);
+        User user = this.posService.findUserByUid(userId);
         Item item = this.posService.findItemById(itemId);
         if (user == null || item == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

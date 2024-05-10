@@ -26,7 +26,7 @@ class LoadDatabase {
     CommandLineRunner initDatabase() {
 
         return args -> {
-            User user = new User("123","10086","15968774896","");
+            User user = new User("admin","admin123","10086","15968774896","");
             posService.saveUser(user);
             posService.saveProduct(new Product("cola",3,"Cola.jpg",16,user));
             posService.saveProduct(new Product("sprite",4,"Sprite.png",12,user));

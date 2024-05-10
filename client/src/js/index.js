@@ -33,8 +33,9 @@ function getProductByItem(item){
     })[0];
 }
 
-$.get(json_api + 'users', function (data) {
-    currentUser = data[0];
+const user_id = sessionStorage.getItem('user_id');
+$.get(json_api + 'users/' + user_id, function (data) {
+    currentUser = data;
     console.log(currentUser);
 });
 $(document).ready(function () {

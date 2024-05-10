@@ -55,8 +55,9 @@ public class User {
         this.pass = pass;
     }
 
-    public User(String name, String address, String contact, String image) {
+    public User(String name, String pass, String address, String contact, String image) {
         this.name = name;
+        this.pass = pass;
         this.address = address;
         this.contact = contact;
         this.image = image;

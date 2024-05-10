@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-09T05:12:34.553859700+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-11T01:54:42.548285900+08:00[Asia/Shanghai]")
 @Validated
 @Tag(name = "users", description = "the users API")
 public interface UsersApi {
@@ -345,7 +345,7 @@ public interface UsersApi {
      *         or unexpected error (status code 200)
      */
     @Operation(
-        operationId = "chargeUserById",
+        operationId = "chargeUserByUid",
         summary = "charge for the user",
         tags = { "user" },
         responses = {
@@ -362,7 +362,7 @@ public interface UsersApi {
         value = "/users/{userId}/charge",
         produces = { "application/json" }
     )
-    default ResponseEntity<UserDto> chargeUserById(
+    default ResponseEntity<UserDto> chargeUserByUid(
         @Parameter(name = "userId", description = "The id of the user to retrieve", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
     ) {
         getRequest().ifPresent(request -> {
@@ -873,7 +873,7 @@ public interface UsersApi {
      *         or unexpected error (status code 200)
      */
     @Operation(
-        operationId = "showUserById",
+        operationId = "showUserByUid",
         summary = "Info for a specific user",
         tags = { "user" },
         responses = {
@@ -890,7 +890,7 @@ public interface UsersApi {
         value = "/users/{userId}",
         produces = { "application/json" }
     )
-    default ResponseEntity<UserDto> showUserById(
+    default ResponseEntity<UserDto> showUserByUid(
         @Parameter(name = "userId", description = "The id of the user to retrieve", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
     ) {
         getRequest().ifPresent(request -> {

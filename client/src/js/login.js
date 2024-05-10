@@ -23,9 +23,8 @@ $(document).ready(function(){
             type: "POST",
             success: function(data, textStatus, jqXHR) {
                 if (jqXHR.status >= 200 && jqXHR.status < 300) {
+                    sessionStorage.setItem('user_id',uid);
                     window.location.href = 'index.html'; // Redirect to dashboard upon successful login
-                } else if (jqXHR.status === 400) {
-                  alert('用户名不能为空！');
                 } else {
                   alert('用户名或密码错误！');
                 }

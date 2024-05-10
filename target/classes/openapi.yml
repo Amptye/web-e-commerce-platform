@@ -128,7 +128,7 @@ paths:
   /users/{userId}:
     get:
       summary: Info for a specific user
-      operationId: showUserById
+      operationId: showUserByUid
       tags:
         - user
       parameters:
@@ -275,7 +275,7 @@ paths:
   /users/{userId}/charge:
     put:
       summary: charge for the user
-      operationId: chargeUserById
+      operationId: chargeUserByUid
       tags:
         - user
       parameters:

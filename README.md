@@ -10,18 +10,25 @@
 * 商品无存货时无法添加入购物车
 
 ## 运行方式
-第一次运行：
+- 开启后端：
 ```bash
-cd client
-npm install
-npm run build
-cd ..
 mvn clean spring-boot:run
 ```
-后续运行：
-```bash
-cd client
-npm run build
-cd ..
-mvn clean spring-boot:run
-```
+- 开启前端：
+    - 第一次运行：
+    ```bash
+    cd client
+    npm install
+    npm run build
+    npm install express 
+    node server.js
+    ```
+    - 后续运行：
+    ```bash
+    cd client
+    npm run build
+    node server.js
+    ```
+
+## 网页显示
+http://localhost:3000/
