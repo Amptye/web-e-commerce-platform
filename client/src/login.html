@@ -46,26 +46,38 @@
         .form-group input {
             flex: 1; /* 让 input 充满剩余的空间 */
         }
+        .box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 10px;
+            border: 5px solid gray;
+            margin: 0px;
+            border-radius: 20px;
+        }
     </style>
 </head>
     <body>
         <div class="center">
-            <h2>登录</h2>
-            <form class="form-container" id="login-form">
-                <div class="form-group">
-                    <label for="uid">用户名：</label>
-                    <input type="text" id="uid" name="uid" placeholder="Uid">
-                </div>
-                <div class="form-group">
-                    <label for="password">密码：</label>
-                    <input type="password" id="password" name="password" placeholder="Password">
-                </div>
-                <input type="submit" value="Login">
-            </form>
-            <p>新用户？</p>
-            <form class="form-container" id="register-form" action="register.html">
-                <input type="submit" value="Register">
-            </form>
+            <div class="box">
+                <h2>登录</h2>
+                <form class="form-container" id="login-form">
+                    <div class="form-group">
+                        <label for="uid">账号：</label>
+                        <input type="text" id="uid" name="uid" placeholder="Uid" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码：</label>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                    </div>
+                    <input type="submit" value="登录">
+                </form>
+                <h4>新用户？</h4>
+                <form class="form-container" id="register-form" action="register.html">
+                    <input type="submit" value="注册">
+                </form>
+            </div>
         </div>
         <script src="public/stylesheets/plugins/bootstrap/bootstrap.min.js"></script>
         <script src="public/stylesheets/plugins/jquery-ui/jquery.form.min.js"></script>

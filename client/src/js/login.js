@@ -26,14 +26,14 @@ $(document).ready(function(){
                     sessionStorage.setItem('user_id',uid);
                     window.location.href = 'index.html'; // Redirect to dashboard upon successful login
                 } else {
-                  alert('用户名或密码错误！');
+                  alert('账号或密码错误！');
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status === 400) {
-                  alert('用户名不能为空！');
+                  alert('账号不能为空！');
                 } else {
-                  alert('用户名或密码错误！');
+                  alert('账号或密码错误！');
                 }
             }
         });

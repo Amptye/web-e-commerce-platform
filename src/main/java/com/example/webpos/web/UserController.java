@@ -69,7 +69,7 @@ public class UserController implements UsersApi {
     @Override
     public ResponseEntity<UserDto> addUser(UserFieldsDto userFieldsDto) {
         HttpHeaders headers = new HttpHeaders();
-        if(userFieldsDto.getPass() == null){
+        if((userFieldsDto.getName() == null) || (userFieldsDto.getPass() == null)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         User user = userMapper.toUser(userFieldsDto);
@@ -353,7 +353,9 @@ public class UserController implements UsersApi {
             if (!product.getOwner().equals(user)) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             } else {
-                product.setName(productFieldsDto.getName());
+                if(productFieldsDto.getName() != null) {
+                    product.setName(productFieldsDto.getName());
+                }
                 if(productFieldsDto.getPrice() != null){
                     product.setPrice(productFieldsDto.getPrice());
                 }

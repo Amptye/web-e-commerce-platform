@@ -1,0 +1,23 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6135249",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "6135279",
+      "name": "personal",
+      "font_class": "personal",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    }
+  ]
+}

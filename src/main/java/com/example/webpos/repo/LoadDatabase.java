@@ -28,10 +28,10 @@ class LoadDatabase {
         return args -> {
             User user = new User("admin","admin123","10086","15968774896","");
             posService.saveUser(user);
-            posService.saveProduct(new Product("cola",3,"Cola.jpg",16,user));
-            posService.saveProduct(new Product("sprite",4,"Sprite.png",12,user));
-            posService.saveProduct(new Product("red bull",5,"Redbull.jpg",4,user));
-            posService.saveProduct(new Product("Milk",5,"Milk.jpg",1,user));
+            posService.saveProduct(new Product("可乐",3,"Cola.jpg",16,user));
+            posService.saveProduct(new Product("雪碧",4,"Sprite.png",12,user));
+            posService.saveProduct(new Product("红牛",5,"Redbull.jpg",4,user));
+            posService.saveProduct(new Product("牛奶",5,"Milk.jpg",1,user));
         };
     }
 }

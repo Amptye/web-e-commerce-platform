@@ -29,16 +29,16 @@ public class User {
     private String name;
 
     //@NotBlank(message = "Email is mandatory")
-    @Pattern(regexp = "^\\w+@\\w+\\.\\w+$")
+//    @Pattern(regexp = "^\\w+@\\w+\\.\\w+$")
     private String email;
 
     //@NotBlank(message = "Password is mandatory")
     private String pass;
 
     private double money = 0;
-    @Pattern(regexp = "^\\d{0,20}$", message = "必须是 1 到 20 位的数字")
+//    @Pattern(regexp = "^\\w*$", message = "必须是 1 到 20 位的数字")
     private String address = "";
-    @Pattern(regexp = "^\\d{0,20}$", message = "必须是 1 到 20 位的数字")
+//    @Pattern(regexp = "^\\w*$", message = "必须是 1 到 20 位的数字")
     private String contact = "";
     private String image;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)

@@ -1707,7 +1707,7 @@ components:
           type: string
           minLength: 1
           maxLength: 30
-          pattern: '^[a-zA-Z]*$'
+#          pattern: '^\w*$'
           example: George
         email:
           title: Email
@@ -1715,7 +1715,7 @@ components:
           type: string
           minLength: 1
           maxLength: 255
-          pattern: '^\w+@\w+\.\w+$'
+#          pattern: '^\w+@\w+\.\w+$'
           example: 'abc@ef.com'
         pass:
           title: Password
@@ -1734,11 +1734,11 @@ components:
           type: string
           minLength: 1
           maxLength: 20
-          pattern: '^[0-9]*$'
+#          pattern: '^\w*$'
           example: '10086'
         contact:
           type: string
-          pattern: '^\d{0,20}$'
+#          pattern: '^\w*$'
         image:
           type: string
     User:
@@ -1778,7 +1778,6 @@ components:
         ownerId:
           type: long
       required:
-        - name
         - ownerId
     Product:
       allOf:

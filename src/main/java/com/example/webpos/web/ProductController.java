@@ -78,22 +78,24 @@ public class ProductController implements ProductsApi {
 
     @Override
     public ResponseEntity<ProductDto> updateProduct(Long productId, ProductFieldsDto productFieldsDto) {
-        Product currentProduct = this.posService.findProductById(productId);
-        if (currentProduct == null) {
+        Product product = this.posService.findProductById(productId);
+        if (product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        currentProduct.setName(productFieldsDto.getName());
+        if(productFieldsDto.getName() != null) {
+            product.setName(productFieldsDto.getName());
+        }
         if(productFieldsDto.getImage() != null) {
-            currentProduct.setImage(productFieldsDto.getImage());
+            product.setImage(productFieldsDto.getImage());
         }
         if(productFieldsDto.getPrice() != null) {
-            currentProduct.setPrice(productFieldsDto.getPrice());
+            product.setPrice(productFieldsDto.getPrice());
         }
         if(productFieldsDto.getQuantity() != null){
-            currentProduct.setQuantity(productFieldsDto.getQuantity());
+            product.setQuantity(productFieldsDto.getQuantity());
         }
-        this.posService.saveProduct(currentProduct);
-        return new ResponseEntity<>(productMapper.toProductDto(currentProduct), HttpStatus.OK);
+        this.posService.saveProduct(product);
+        return new ResponseEntity<>(productMapper.toProductDto(product), HttpStatus.OK);
     }
 
     @Override
@@ -116,24 +118,24 @@ public class ProductController implements ProductsApi {
 
     @Override
     public ResponseEntity<ProductDto> patchProduct(Long productId, PatchProductRequestDto patchProductRequestDto) {
-        Product currentProduct = this.posService.findProductById(productId);
-        if (currentProduct == null) {
+        Product product = this.posService.findProductById(productId);
+        if (product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         if(patchProductRequestDto.getName() != null) {
-            currentProduct.setName(patchProductRequestDto.getName());
+            product.setName(patchProductRequestDto.getName());
         }
         if(patchProductRequestDto.getImage() != null) {
-            currentProduct.setImage(patchProductRequestDto.getImage());
+            product.setImage(patchProductRequestDto.getImage());
         }
         if(patchProductRequestDto.getPrice() != null) {
-            currentProduct.setPrice(patchProductRequestDto.getPrice());
+            product.setPrice(patchProductRequestDto.getPrice());
         }
         if(patchProductRequestDto.getQuantity() != null){
-            currentProduct.setQuantity(patchProductRequestDto.getQuantity());
+            product.setQuantity(patchProductRequestDto.getQuantity());
         }
-        this.posService.saveProduct(currentProduct);
-        return new ResponseEntity<>(productMapper.toProductDto(currentProduct), HttpStatus.OK);
+        this.posService.saveProduct(product);
+        return new ResponseEntity<>(productMapper.toProductDto(product), HttpStatus.OK);
     }
 
 }

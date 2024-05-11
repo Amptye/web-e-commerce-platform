@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("User")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-11T01:54:42.548285900+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-11T06:20:40.159984800+08:00[Asia/Shanghai]")
 public class UserDto {
 
   @JsonProperty("name")
@@ -71,7 +71,7 @@ public class UserDto {
    * The name of the user.
    * @return name
   */
-  @Pattern(regexp = "^[a-zA-Z]*$") @Size(min = 1, max = 30) 
+  @Size(min = 1, max = 30) 
   @Schema(name = "name", example = "George", description = "The name of the user.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getName() {
     return name;
@@ -90,7 +90,7 @@ public class UserDto {
    * The email of the user.
    * @return email
   */
-  @Pattern(regexp = "^\\w+@\\w+\\.\\w+$") @Size(min = 1, max = 255) 
+  @Size(min = 1, max = 255) 
   @Schema(name = "email", example = "abc@ef.com", description = "The email of the user.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getEmail() {
     return email;
@@ -147,7 +147,7 @@ public class UserDto {
    * Get address
    * @return address
   */
-  @Pattern(regexp = "^[0-9]*$") @Size(min = 1, max = 20) 
+  @Size(min = 1, max = 20) 
   @Schema(name = "address", example = "10086", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getAddress() {
     return address;
@@ -166,7 +166,7 @@ public class UserDto {
    * Get contact
    * @return contact
   */
-  @Pattern(regexp = "^\\d{0,20}$") 
+  
   @Schema(name = "contact", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   public String getContact() {
     return contact;

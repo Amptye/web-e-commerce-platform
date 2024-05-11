@@ -76,35 +76,35 @@ public class ItemController implements ItemsApi {
 
     @Override
     public ResponseEntity<ItemDto> updateItem(Long itemId, ItemFieldsDto itemFieldsDto) {
-        Item currentItem = this.posService.findItemById(itemId);
-        if (currentItem == null) {
+        Item item = this.posService.findItemById(itemId);
+        if (item == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        currentItem.setQuantity(itemFieldsDto.getQuantity());
-        this.posService.saveItem(currentItem);
-        return new ResponseEntity<>(itemMapper.toItemDto(currentItem), HttpStatus.OK);
+        item.setQuantity(itemFieldsDto.getQuantity());
+        this.posService.saveItem(item);
+        return new ResponseEntity<>(itemMapper.toItemDto(item), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<ItemDto> addItemById(Long itemId) {
-        Item currentItem = this.posService.findItemById(itemId);
-        if (currentItem == null) {
+        Item item = this.posService.findItemById(itemId);
+        if (item == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        currentItem.setQuantity(currentItem.getQuantity()+1);
-        this.posService.saveItem(currentItem);
-        return new ResponseEntity<>(itemMapper.toItemDto(currentItem), HttpStatus.OK);
+        item.setQuantity(item.getQuantity()+1);
+        this.posService.saveItem(item);
+        return new ResponseEntity<>(itemMapper.toItemDto(item), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<ItemDto> subItemById(Long itemId) {
-        Item currentItem = this.posService.findItemById(itemId);
-        if (currentItem == null) {
+        Item item = this.posService.findItemById(itemId);
+        if (item == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        currentItem.setQuantity(currentItem.getQuantity()-1);
-        this.posService.saveItem(currentItem);
-        return new ResponseEntity<>(itemMapper.toItemDto(currentItem), HttpStatus.OK);
+        item.setQuantity(item.getQuantity()-1);
+        this.posService.saveItem(item);
+        return new ResponseEntity<>(itemMapper.toItemDto(item), HttpStatus.OK);
     }
 
 

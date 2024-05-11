@@ -46,11 +46,41 @@
         .form-group input {
             flex: 1; /* 让 input 充满剩余的空间 */
         }
+        .box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 10px;
+            border: 5px solid gray;
+            margin: 0px;
+            border-radius: 20px;
+        }
+        .multiline-alert {
+            white-space: pre-line;
+        }
     </style>
 </head>
     <body>
         <div class="center">
-
+            <div class="box">
+                <h2>注册</h2>
+                <form class="form-container" id="register-form">
+                    <div class="form-group">
+                        <label for="name">用户名：</label>
+                        <input type="text" id="name" name="name" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码：</label>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm">确认密码：</label>
+                        <input type="password" id="confirm" name="confirm" placeholder="Confirm" required>
+                    </div>
+                    <input type="submit" id="submit" value="注册">
+                </form>
+            </div>
         </div>
         <script src="public/stylesheets/plugins/bootstrap/bootstrap.min.js"></script>
         <script src="public/stylesheets/plugins/jquery-ui/jquery.form.min.js"></script>
