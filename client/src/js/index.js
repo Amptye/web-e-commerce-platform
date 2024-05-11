@@ -19,6 +19,13 @@ let Swal = require('sweetalert2');
 let json_api = 'http://localhost:8080/';
 let json_img = './public/images/';//添加当前文件夹路径
 
+function getImagePath(path){
+    if(path.startsWith("https://") || path.startsWith("http://")){
+        return path;
+    }
+    return json_img/*img_path*/ + path;
+}
+
 function getProductByItem(item){
     return allProducts.filter(function (selected) {
         return selected.id == parseInt(item.productId);
@@ -125,7 +132,7 @@ $(document).ready(function () {
                 let product_info = `<div class="col-lg-2 box"
                         onclick="$(this).addToCart(${product.id}, ${product.quantity})">
                       <div class="widget-panel widget-style-2 ">
-                      <div id="image"><img src="${product.image == "" ? "./public/images/default.jpg" : json_img/*img_path*/ + product.image}" id="product_img" alt=""></div>
+                      <div id="image"><img src="${product.image == "" ? "./public/images/default.jpg" : getImagePath(product.image)}" id="product_img" alt=""></div>
                                   <div class="text-muted m-t-5 text-center">
                                   <div class="name" id="product_name">${product.name}</div>
 //                                  <span class="sku">${product.sku}</span>
@@ -350,7 +357,7 @@ $(document).ready(function () {
 
             product_list += `<tr>
       <td><img id="`+ product.id + `"></td>
-      <td><img style="max-height: 50px; max-width: 50px; border: 1px solid #ddd;" src="${product.image == "" ? "./public/images/default.jpg" : json_img/*img_path*/ + product.image}" id="product_img"></td>
+      <td><img style="max-height: 50px; max-width: 50px; border: 1px solid #ddd;" src="${product.image == "" ? "./public/images/default.jpg" : getImagePath(product.image)}" id="product_img"></td>
       <td>${product.name}</td>
       <td>${priceSymbol}${product.price}</td>
       <td>${product.quantity}</td>
