@@ -24,7 +24,7 @@ public class ProductMapperImpl implements ProductMapper {
 
         ProductDto productDto = new ProductDto();
 
-        productDto.setOwnerId( productOwnerId( product ) );
+        productDto.setOwnerId( productOwnerUid( product ) );
         productDto.setName( product.getName() );
         productDto.setPrice( product.getPrice() );
         productDto.setImage( product.getImage() );
@@ -105,7 +105,7 @@ public class ProductMapperImpl implements ProductMapper {
         return collection;
     }
 
-    private Long productOwnerId(Product product) {
+    private Long productOwnerUid(Product product) {
         if ( product == null ) {
             return null;
         }
@@ -113,7 +113,7 @@ public class ProductMapperImpl implements ProductMapper {
         if ( owner == null ) {
             return null;
         }
-        long id = owner.getId();
-        return id;
+        long uid = owner.getUid();
+        return uid;
     }
 }

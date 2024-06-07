@@ -5,6 +5,7 @@
  */
 package org.springframework.samples.petclinic.rest.api;
 
+import org.springframework.samples.petclinic.rest.dto.AddUserMoneyRequestDto;
 import org.springframework.samples.petclinic.rest.dto.ErrorDto;
 import org.springframework.samples.petclinic.rest.dto.ItemDto;
 import org.springframework.samples.petclinic.rest.dto.ItemFieldsDto;
@@ -38,7 +39,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-11T06:20:40.159984800+08:00[Asia/Shanghai]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-06-07T14:41:19.617322700+08:00[Asia/Shanghai]")
 @Validated
 @Tag(name = "users", description = "the users API")
 public interface UsersApi {
@@ -265,6 +266,67 @@ public interface UsersApi {
     )
     default ResponseEntity<UserDto> addUser(
         @Parameter(name = "UserFieldsDto", description = "The user", required = true) @Valid @RequestBody UserFieldsDto userFieldsDto
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "null";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * PATCH /users/{userId}/addmoney : add a user&#39;s money
+     * Add the user money with the specified money.
+     *
+     * @param userId The ID of the user. (required)
+     * @param addUserMoneyRequestDto  (required)
+     * @return User details found and returned. (status code 200)
+     *         or Not modified. (status code 304)
+     *         or Bad request. (status code 400)
+     *         or User not found. (status code 404)
+     *         or Server error. (status code 500)
+     *         or unexpected error (status code 200)
+     */
+    @Operation(
+        operationId = "addUserMoney",
+        summary = "add a user's money",
+        description = "Add the user money with the specified money.",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "User details found and returned.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+            }),
+            @ApiResponse(responseCode = "304", description = "Not modified."),
+            @ApiResponse(responseCode = "400", description = "Bad request.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "User not found.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Server error.", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.PATCH,
+        value = "/users/{userId}/addmoney",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    default ResponseEntity<UserDto> addUserMoney(
+        @Parameter(name = "userId", description = "The ID of the user.", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "AddUserMoneyRequestDto", description = "", required = true) @Valid @RequestBody AddUserMoneyRequestDto addUserMoneyRequestDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

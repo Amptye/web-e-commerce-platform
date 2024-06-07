@@ -16,55 +16,33 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * ErrorDto
+ * AddUserMoneyRequestDto
  */
 
-@JsonTypeName("Error")
+@JsonTypeName("addUserMoney_request")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-06-07T14:41:19.617322700+08:00[Asia/Shanghai]")
-public class ErrorDto {
+public class AddUserMoneyRequestDto {
 
-  @JsonProperty("code")
-  private Integer code;
+  @JsonProperty("money")
+  private Double money = null;
 
-  @JsonProperty("message")
-  private String message;
-
-  public ErrorDto code(Integer code) {
-    this.code = code;
+  public AddUserMoneyRequestDto money(Double money) {
+    this.money = money;
     return this;
   }
 
   /**
-   * Get code
-   * @return code
+   * Get money
+   * @return money
   */
-  @NotNull 
-  @Schema(name = "code", requiredMode = Schema.RequiredMode.REQUIRED)
-  public Integer getCode() {
-    return code;
+  
+  @Schema(name = "money", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  public Double getMoney() {
+    return money;
   }
 
-  public void setCode(Integer code) {
-    this.code = code;
-  }
-
-  public ErrorDto message(String message) {
-    this.message = message;
-    return this;
-  }
-
-  /**
-   * Get message
-   * @return message
-  */
-  @NotNull 
-  @Schema(name = "message", requiredMode = Schema.RequiredMode.REQUIRED)
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
+  public void setMoney(Double money) {
+    this.money = money;
   }
 
   @Override
@@ -75,22 +53,20 @@ public class ErrorDto {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ErrorDto error = (ErrorDto) o;
-    return Objects.equals(this.code, error.code) &&
-        Objects.equals(this.message, error.message);
+    AddUserMoneyRequestDto addUserMoneyRequest = (AddUserMoneyRequestDto) o;
+    return Objects.equals(this.money, addUserMoneyRequest.money);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, message);
+    return Objects.hash(money);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ErrorDto {\n");
-    sb.append("    code: ").append(toIndentedString(code)).append("\n");
-    sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("class AddUserMoneyRequestDto {\n");
+    sb.append("    money: ").append(toIndentedString(money)).append("\n");
     sb.append("}");
     return sb.toString();
   }

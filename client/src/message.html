@@ -16,130 +16,170 @@
     <link href="public/stylesheets/plugins/dataTables/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="public/stylesheets/css/pages.css" rel="stylesheet" type="text/css" />
     <link href="public/stylesheets/myfonts/font_aajq46vxhbt/iconfont.css" rel="stylesheet" type="text/css">
+    <link href="public/stylesheets/css/mystyle.css" rel="stylesheet" type="text/css" />
     <style>
-        .center {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100vw; /* 设置宽度以使内容水平居中 */
-            height: 100vh; /* 设置高度以使内容垂直居中 */
+            height: 100vh;
         }
-        .form-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* 在水平方向上居中 */
-            align-items: center; /* 在垂直方向上居中 */
+        .sidebar {
+            width: 200px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         }
-        .form-group {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            margin-bottom: 10px;
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
         }
-        .form-group label {
-            display: inline-block;
-            width: 100px; /* 设置 label 的固定宽度 */
-            text-align: right; /* 文本右对齐 */
-            margin-right: 10px;
-            min-width: 60px; /* 设置 label 最小宽度 */
+        .sidebar ul li {
+            margin: 10px 0;
         }
-        .form-group input {
-            flex: 1; /* 让 input 充满剩余的空间 */
+        .sidebar ul li > span {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px;
+            border-radius: 4px;
         }
-        .box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 10px;
-            border: 5px solid gray;
-            margin: 0px;
-            border-radius: 20px;
+        .sidebar ul li > span:hover {
+            background-color: #ddd;
+            cursor: pointer;
         }
-        .back {
-            float: left;
-            margin: 0 40px;
-            position: absolute;
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .content div {
+            display: none;
+        }
+        #productsContent {
+            display: none;
+        }
+        #shelfContent {
+            display: none;
         }
     </style>
-    <!-- custom style -->
 </head>
     <body>
-        <div class="back">
-            <button onclick="window.location.href = 'index.html';">
-                <span class="iconfont icon-home" style="font-size: 40px;"></span>
-            </button>
+        <div class="sidebar">
+            <ul>
+                <li>
+                        <!-- <button onclick="window.location.href = 'index.html';">
+                            <span class="iconfont icon-home" style="font-size: 40px;"></span>
+                        </button> -->
+                        <button  onclick="window.location.href = 'index.html';" type="button" class="btn btn-warning waves-effect waves-light">
+                            <span class="btn-label"><i class="fa fa-arrow-left"></i></span>Back
+                        </button>
+                </li>
+                <li><span id="message">个人信息</span></li>
+                <li><span id="products">我的商品</span></li>
+                <li><span id="shelf">上架商品</span></li>
+            </ul>
         </div>
-        <div class="center">
-            <div class="box">
-                <span id="current-uid">账号：</span>
-                <span id="current-name">名称：</span>
-                <span id="current-money">余额：</span>
-                <span id="current-address">地址：</span>
-                <span id="current-email">邮箱：</span>
-                <span id="current-contact">联系方式：</span>
+        <div id="messageContent">
+            <div class="center">
+                <div class="box">
+                    <span id="current-uid">账号：</span>
+                    <span id="current-name">名称：</span>
+                    <span id="current-money">余额：</span>
+                    <span id="current-address">地址：</span>
+                    <span id="current-email">邮箱：</span>
+                    <span id="current-contact">联系方式：</span>
+                </div>
+
+                <div class="box">
+                    <b>充值</b>
+                    <form class="form-container", id="change-money">
+                        <div class="form-group">
+                            <label for="money">充值金额</label>
+                            <input type="text" id="money" name="money" placeholder="金额">
+                        </div>
+                        <input type="submit" value="充值">
+                    </form>
+                </div>
+                <div class="box">
+                    <b>修改信息</b>
+                    <form class="form-container" id="change-name">
+                        <h4>修改名称</h4>
+                        <div class="form-group">
+                            <label for="name">新名称：</label>
+                            <input type="text" id="name" name="new_name" placeholder="名称">
+                        </div>
+                        <input type="submit" value="修改">
+                    </form>
+                    <form class="form-container" id="change-pass">
+                        <h4>修改密码</h4>
+                        <div class="form-group" id="oldpass-group">
+                            <label for="name">旧密码：</label>
+                            <input type="password" id="old_pass" name="old_pass" placeholder="旧密码">
+                        </div>
+                        <div class="form-group" id="newpass-group">
+                            <label for="name">新密码：</label>
+                            <input type="password" id="new_pass" name="new_pass" placeholder="新密码">
+                        </div>
+                        <div class="form-group" id="confirm-group">
+                            <label for="name">确认新密码：</label>
+                            <input type="password" id="confirm" name="confirm" placeholder="确认新密码">
+                        </div>
+                        <input type="submit" id="submit-pass" value="修改">
+                    </form>
+                    <form class="form-container" id="change-address">
+                        <h4>修改地址</h4>
+                        <div class="form-group">
+                            <label for="name">新地址：</label>
+                            <input type="text" id="address" name="new_address" placeholder="地址">
+                        </div>
+                        <input type="submit" value="修改">
+                    </form>
+                    <form class="form-container" id="change-email">
+                        <h4>修改邮箱</h4>
+                        <div class="form-group">
+                            <label for="name">新邮箱：</label>
+                            <input type="text" id="email" name="new_email" placeholder="邮箱">
+                        </div>
+                        <input type="submit" value="修改">
+                    </form>
+                    <form class="form-container" id="change-contact">
+                        <h4>修改联系方式</h4>
+                        <div class="form-group">
+                            <label for="name">联系方式：</label>
+                            <input type="text" id="contact" name="new_contact" placeholder="联系方式">
+                        </div>
+                        <input type="submit" value="修改">
+                    </form>
+                </div>
             </div>
-            <div class="box">
-                <b>充值</b>
-                <form class="form-container", id="change-money">
-                    <div class="form-group">
-                        <label for="money">充值金额</label>
-                        <input type="text" id="money" name="money" placeholder="金额">
-                    </div>
-                    <input type="submit" value="充值">
-                </form>
+        </div>
+        <div class="center" id="productsContent">
+            <div class="card-box">
+                <div class="row" id="parent">
+
+                </div>
             </div>
-            <div class="box">
-                <b>修改信息</b>
-                <form class="form-container" id="change-name">
-                    <h4>修改名称</h4>
-                    <div class="form-group">
-                        <label for="name">新名称：</label>
-                        <input type="text" id="name" name="new_name" placeholder="名称">
-                    </div>
-                    <input type="submit" value="修改">
-                </form>
-                <form class="form-container" id="change-pass">
-                    <h4>修改密码</h4>
-                    <div class="form-group" id="oldpass-group">
-                        <label for="name">旧密码：</label>
-                        <input type="password" id="old_pass" name="old_pass" placeholder="旧密码">
-                    </div>
-                    <div class="form-group" id="newpass-group">
-                        <label for="name">新密码：</label>
-                        <input type="password" id="new_pass" name="new_pass" placeholder="新密码">
-                    </div>
-                    <div class="form-group" id="confirm-group">
-                        <label for="name">确认新密码：</label>
-                        <input type="password" id="confirm" name="confirm" placeholder="确认新密码">
-                    </div>
-                    <input type="submit" id="submit-pass" value="修改">
-                </form>
-                <form class="form-container" id="change-address">
-                    <h4>修改地址</h4>
-                    <div class="form-group">
-                        <label for="name">新地址：</label>
-                        <input type="text" id="address" name="new_address" placeholder="地址">
-                    </div>
-                    <input type="submit" value="修改">
-                </form>
-                <form class="form-container" id="change-email">
-                    <h4>修改邮箱</h4>
-                    <div class="form-group">
-                        <label for="name">新邮箱：</label>
-                        <input type="text" id="email" name="new_email" placeholder="邮箱">
-                    </div>
-                    <input type="submit" value="修改">
-                </form>
-                <form class="form-container" id="change-contact">
-                    <h4>修改联系方式</h4>
-                    <div class="form-group">
-                        <label for="name">联系方式：</label>
-                        <input type="text" id="contact" name="new_contact" placeholder="联系方式">
-                    </div>
-                    <input type="submit" value="修改">
-                </form>
+        </div>
+        <div id="shelfContent">
+            <div class="center">
+                <div class="box">
+                    <h2>上架商品</h2>
+                    <form class="form-container", id="shelf-product">
+                        <div class="form-group" id="product-name-group">
+                            <label for="new_product_name">商品名称：</label>
+                            <input type="text" id="new_product_name" name="new_product_name" placeholder="名称">
+                        </div>
+                        <div class="form-group" id="product-price-group">
+                            <label for="new_product_price">商品价格：</label>
+                            <input type="text" id="new_product_price" name="new_product_price" placeholder="价格">
+                        </div>
+                        <div class="form-group" id="product-quantity-group">
+                            <label for="new_product_quantity">商品数量：</label>
+                            <input type="text" id="new_product_quantity" name="new_product_quantity" placeholder="数量">
+                        </div>
+                        <input type="submit" value="上架">
+                    </form>
+                </div>
             </div>
         </div>
         <script src="public/stylesheets/plugins/bootstrap/bootstrap.min.js"></script>

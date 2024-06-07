@@ -185,6 +185,7 @@ public class UserController implements UsersApi {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Product product = productMapper.toProduct(productFieldsDto);
+        product.setOwner(user);
         if(productFieldsDto.getQuantity() == null){
             product.setQuantity(1);
         } else {
@@ -320,7 +321,7 @@ public class UserController implements UsersApi {
     @Override
     public ResponseEntity<List<ProductDto>> listOwnersProducts(Long userId) {
         User user = this.posService.findUserByUid(userId);
-        if (user == null || user.getProducts().isEmpty()) {
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             List<ProductDto> products = productMapper.toProductDtos(user.getProducts());
@@ -388,4 +389,16 @@ public class UserController implements UsersApi {
         }
     }
 
+    @Override
+    public ResponseEntity<UserDto> addUserMoney(Long userId, AddUserMoneyRequestDto addUserMoneyRequestDto) {
+        User user = this.posService.findUserByUid(userId);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (addUserMoneyRequestDto.getMoney() != null) {
+            user.setMoney(user.getMoney() + addUserMoneyRequestDto.getMoney());
+        }
+        this.posService.saveUser(user);
+        return new ResponseEntity<>(userMapper.toUserDto(user), HttpStatus.OK);
+    }
 }

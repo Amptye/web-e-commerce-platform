@@ -5,6 +5,7 @@ src/main/java/org/springframework/samples/petclinic/rest/api/ApiUtil.java
 src/main/java/org/springframework/samples/petclinic/rest/api/ItemsApi.java
 src/main/java/org/springframework/samples/petclinic/rest/api/ProductsApi.java
 src/main/java/org/springframework/samples/petclinic/rest/api/UsersApi.java
+src/main/java/org/springframework/samples/petclinic/rest/dto/AddUserMoneyRequestDto.java
 src/main/java/org/springframework/samples/petclinic/rest/dto/ErrorDto.java
 src/main/java/org/springframework/samples/petclinic/rest/dto/ItemAllOfDto.java
 src/main/java/org/springframework/samples/petclinic/rest/dto/ItemDto.java

@@ -34,6 +34,10 @@ function getProductByItem(item){
 
 const user_id = sessionStorage.getItem('user_id');
 function loadUser(){
+    if(!user_id){
+        window.location.href = 'login.html';
+        return;
+    }
     return $.get(json_api + 'users/' + user_id, function (data) {
         currentUser = data;
         console.log(currentUser);
@@ -61,6 +65,13 @@ $(document).ready(function () {
 
     };
 
+    $('#search').on('keydown', function(event) {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+            var a = $("#search").val();
+            loadProducts(a);
+        }
+    });
+
     $(".loading").hide();
     $.fn.renderTable = function (itemList) {
         $('#cartTable > tbody').empty();
@@ -83,9 +94,10 @@ $(document).ready(function () {
                             ),
                             $('<input>', {
                                 class: 'form-control',
-                                type: 'number',
+                                type: 'text',
                                 value: data.quantity,
-                                onInput: '$(this).qtInput(' + index + ')'
+                                onInput: '$(this).qtInput(' + index + ')',
+                                readonly: true
                             }),
                             $('<div>', { class: 'input-group-btn btn-xs' }).append(
                                 $('<button>', {
@@ -112,38 +124,69 @@ $(document).ready(function () {
     };
 
 
-    function loadProducts() {
+    function loadProducts(a = '') {
+        if (a == '') {
+            $.get(json_api + 'products', function (data) {
+                data.forEach(pro => {
+                    pro.price = parseFloat(pro.price).toFixed(2);
+                });
 
-        $.get(json_api + 'products', function (data) {
-            data.forEach(pro => {
-                pro.price = parseFloat(pro.price).toFixed(2);
-            });
+                allProducts = [...data];
 
-            allProducts = [...data];
+                loadProductList();
 
-            loadProductList();
+                $('#parent').text('');
 
-            $('#parent').text('');
+                data.forEach(pro => {
 
-            data.forEach(pro => {
+                    product = pro;
 
-                product = pro;
-
-                let product_info = `<div class="col-lg-2 box"
+                    let product_info = `<div class="col-lg-2 box"
                         onclick="$(this).addToCart(${product.id}, ${product.quantity})">
                       <div class="widget-panel widget-style-2 ">
-                      <div id="image"><img src="${product.image == "" ? "./public/images/default.jpg" : getImagePath(product.image)}" id="product_img" alt=""></div>
+                      <div id="image"><img src="${product.image ? getImagePath(product.image) : "./public/images/default.jpg"}" id="product_img" alt=""></div>
                                   <div class="text-muted m-t-5 text-center">
                                   <div class="name" id="product_name">${product.name}</div>
-//                                  <span class="sku">${product.sku}</span>
                                   <span class="stock">库存 </span><span class="count">${product.quantity}</span></div>
-                                  <sp class="text-success text-center"><b data-plugin="counterup">${priceSymbol + product.price}</b> </sp>
+                                        <sp class="text-info text-center"><b data-plugin="counterup">${priceSymbol + product.price}</b> </sp>
                       </div>
                   </div>`;
-                $('#parent').append(product_info);
-            });
+                    $('#parent').append(product_info);
+                });
 
-        });
+            });
+        }
+        else {//getByName/{productName}
+            $.get(json_api + 'products/getByName/' + a, function (data) {
+                data.forEach(pro => {
+                    pro.price = parseFloat(pro.price).toFixed(2);
+                });
+
+                allProducts = [...data];
+
+                loadProductList();
+
+                $('#parent').text('');
+
+                data.forEach(pro => {
+
+                    product = pro;
+
+                    let product_info = `<div class="col-lg-2 box"
+                        onclick="$(this).addToCart(${product.id}, ${product.quantity})">
+                      <div class="widget-panel widget-style-2 ">
+                      <div id="image"><img src="${product.image ? getImagePath(product.image) : "./public/images/default.jpg"}" id="product_img" alt=""></div>
+                                  <div class="text-muted m-t-5 text-center">
+                                  <div class="name" id="product_name">${product.name}</div>
+                                  <span class="stock">库存 </span><span class="count">${product.quantity}</span></div>
+                                        <sp class="text-info text-center"><b data-plugin="counterup">${priceSymbol + product.price}</b> </sp>
+                      </div>
+                  </div>`;
+                    $('#parent').append(product_info);
+                });
+
+            });
+        }
 
     }
 
@@ -209,6 +252,21 @@ $(document).ready(function () {
 
     $.fn.sendOrder = function(){
         var promises = [];
+
+        promises.push($.ajax({
+            url: json_api + 'users/' + currentUser.uid,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ money: currentUser.money - grossTotal }),
+            type: "PUT",
+            success: function (data) {
+                console.log("Data updated!");
+            },
+            error: function (data) {
+                console.log("failed");
+            }
+        }));
+
         for (let i = 0; i < cart.length; i++) {
             product = getProductByItem(cart[i]);
             promises.push($.ajax({
@@ -224,20 +282,21 @@ $(document).ready(function () {
                     console.log("failed");
                 }
             }));
+            promises.push($.ajax({
+                url: json_api + 'users/' + product.ownerId + '/addmoney',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({ 'money': cart[i].quantity * product.price }),
+                type: "PATCH",
+                success: function (data) {
+                    console.log("Data updated!");
+                },
+                error: function (data) {
+                    console.log("failed");
+                }
+            }));
         }
-        promises.push($.ajax({
-            url: json_api + 'users/' + currentUser.uid,
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify({ money: currentUser.money - grossTotal }),
-            type: "PUT",
-            success: function (data) {
-                console.log("Data updated!");
-            },
-            error: function (data) {
-                console.log("failed");
-            }
-        }));
+
         $.when.apply($, promises).then(function(){
             cart = [];
             loadUser();
@@ -314,7 +373,9 @@ $(document).ready(function () {
         }
 
     }
-
+    $.fn.logOut = function(){
+        window.location.href = 'login.html';
+    }
 
     $("#payButton").on('click', function () {
         if (cart.length != 0) {
@@ -344,6 +405,11 @@ $(document).ready(function () {
         }
     });
 
+    $("#searchButton").on('click', function () {
+        var a = $("#search").val();
+        loadProducts(a);
+    });
+
     function loadProductList() {
         let products = [...allProducts];
         let product_list = '';
@@ -357,7 +423,7 @@ $(document).ready(function () {
 
             product_list += `<tr>
       <td><img id="`+ product.id + `"></td>
-      <td><img style="max-height: 50px; max-width: 50px; border: 1px solid #ddd;" src="${product.image == "" ? "./public/images/default.jpg" : getImagePath(product.image)}" id="product_img"></td>
+      <td><img style="max-height: 50px; max-width: 50px; border: 1px solid #ddd;" src="${product.image ? getImagePath(product.image) : "./public/images/default.jpg"}" id="product_img"></td>
       <td>${product.name}</td>
       <td>${priceSymbol}${product.price}</td>
       <td>${product.quantity}</td>

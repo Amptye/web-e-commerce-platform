@@ -101,18 +101,18 @@ public class ProductController implements ProductsApi {
     @Override
     public ResponseEntity<List<ProductDto>> showProductByName(String productName) {
         List<Product> products = this.posService.findProductsByName(productName);
-        if (products.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+//        if (products.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
         return new ResponseEntity<>(productMapper.toProductDtos(products), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<ProductDto>> searchProductByName(String productName) {
         List<Product> products = this.posService.findProductsByName(productName);
-        if (products.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+//        if (products.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
         return new ResponseEntity<>(productMapper.toProductDtos(products), HttpStatus.OK);
     }
 

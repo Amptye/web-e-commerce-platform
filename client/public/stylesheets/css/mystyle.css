@@ -1,0 +1,55 @@
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw; /* 设置宽度以使内容水平居中 */
+    height: 100vh; /* 设置高度以使内容垂直居中 */
+    overflow: auto;
+}
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 在水平方向上居中 */
+    align-items: center; /* 在垂直方向上居中 */
+}
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.form-group label {
+    display: inline-block;
+    width: 100px; /* 设置 label 的固定宽度 */
+    text-align: right; /* 文本右对齐 */
+    margin-right: 10px;
+    min-width: 60px; /* 设置 label 最小宽度 */
+}
+.form-group input {
+    flex: 1; /* 让 input 充满剩余的空间 */
+}
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 10px;
+    border: 5px solid gray;
+    margin: 0px;
+    border-radius: 20px;
+}
+.back {
+    /* float: left; */
+    margin: 0 40px;
+    position: absolute;
+}
+.forward{
+    /* float: right; */
+    right: 40px; /* 40px from the right */
+    margin: 0 40px;
+    position: absolute;
+}
+.multiline-alert {
+    white-space: pre-line;
+}
