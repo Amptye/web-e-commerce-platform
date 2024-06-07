@@ -86,7 +86,7 @@ $(document).ready(function () {
                         $('<div>', { class: 'input-group' }).append(
                             $('<div>', { class: 'input-group-btn btn-xs' }).append(
                                 $('<button>', {
-                                    class: 'btn btn-default btn-xs',
+                                    class: 'btn btn-warning btn-xs',
                                     onclick: '$(this).qtDecrement(' + index + ')'
                                 }).append(
                                     $('<i>', { class: 'fa fa-minus' })
@@ -101,7 +101,7 @@ $(document).ready(function () {
                             }),
                             $('<div>', { class: 'input-group-btn btn-xs' }).append(
                                 $('<button>', {
-                                    class: 'btn btn-default btn-xs',
+                                    class: 'btn btn-success btn-xs',
                                     onclick: '$(this).qtIncrement(' + index + ')'
                                 }).append(
                                     $('<i>', { class: 'fa fa-plus' })
