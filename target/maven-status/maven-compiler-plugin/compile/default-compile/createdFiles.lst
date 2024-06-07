@@ -20,6 +20,7 @@ org\springframework\samples\petclinic\rest\dto\ItemAllOfDto.class
 org\springframework\samples\petclinic\rest\dto\UserDto.class
 org\springframework\samples\petclinic\rest\api\UsersApi.class
 org\springframework\samples\petclinic\rest\dto\UserAllOfDto.class
+org\springframework\samples\petclinic\rest\dto\AddUserMoneyRequestDto.class
 org\springframework\samples\petclinic\rest\dto\PatchProductRequestDto.class
 com\example\webpos\mapper\ItemMapper.class
 com\example\webpos\repo\ItemRepository.class
