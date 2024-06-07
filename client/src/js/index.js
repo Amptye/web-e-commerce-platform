@@ -86,7 +86,7 @@ $(document).ready(function () {
                         $('<div>', { class: 'input-group' }).append(
                             $('<div>', { class: 'input-group-btn btn-xs' }).append(
                                 $('<button>', {
-                                    class: 'btn btn-warning btn-xs',
+                                    class: 'btn btn-danger btn-xs',
                                     onclick: '$(this).qtDecrement(' + index + ')'
                                 }).append(
                                     $('<i>', { class: 'fa fa-minus' })
